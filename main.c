@@ -13,7 +13,7 @@ int main()
     {
         switch (char_read())
         {
-            case '1':
+            case '3':
                 print_to_console("../UI/MENU1.txt");
                 break;
             case '2':
