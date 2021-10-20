@@ -3,7 +3,8 @@
 //
 #include <windows.h>
 #include <conio.h>
-
+#include <stdbool.h>
+#include <stdio.h>
 
 /*sorok megszamolasa egy fajlban*/
 int count_lines(char *file_name)
@@ -68,5 +69,35 @@ void init_console_window(void)
 /*karakter olvasasa portolas miatt*/
 char char_read(void)
 {
+    //beolvassa a karakter (ASCII tabla)
     return getch();
 }
+
+/*bemeneti gombokkal foglallkozo fuggveny*/
+void buttons(void)
+{
+    bool exit = false;
+
+    while (!exit)
+    {
+        switch (char_read())
+        {
+            //bemenetek gombjai, amik fuggvenyeket hivnak meg.
+            case '3':
+                print_to_console("../UI/MENU1.txt");
+                break;
+            case '2':
+                print_to_console("../UI/MENU2.txt");
+                break;
+            case 'e':
+                exit = true;
+                break;
+        }
+    }
+}
+
+/*tisztogato fuggveny*/
+/*void clean_master_pro_900(void **p)
+{
+
+}*/
