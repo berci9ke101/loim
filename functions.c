@@ -5,6 +5,9 @@
 #include <conio.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include "econio.h"
+#include "functions.h"
+
 
 /*sorok megszamolasa egy fajlban*/
 int count_lines(char *file_name)
@@ -94,6 +97,44 @@ void buttons(void)
                 break;
         }
     }
+}
+
+/*teglalap rajzolo fuggveny tetszoleges karakterekkel*/
+void draw_rect_char(int x, int y, int width, int height, char *symb)
+{
+    char hor = symb[0];
+    char vert = symb[1];
+    char t_left = symb[2];
+    char t_right = symb[3];
+    char b_left = symb[4];
+    char b_right = symb[5];
+
+    for (int i = 0; i < width - 1; i++)
+    {
+        econio_gotoxy(x + i, y);
+        printf("%c", hor);
+        econio_gotoxy(x + i, y + height - 1);
+        printf("%c", hor);
+
+    }
+
+    for (int i = 0; i < height - 1; i++)
+    {
+        econio_gotoxy(x, y + i);
+        printf("%c", vert);
+        econio_gotoxy(x + width - 1, y + i);
+        printf("%c", vert);
+    }
+
+
+    econio_gotoxy(x, y);
+    printf("%c", t_left);
+    econio_gotoxy(x + width - 1, y);
+    printf("%c", t_right);
+    econio_gotoxy(x, y + height - 1);
+    printf("%c", b_left);
+    econio_gotoxy(x + width - 1, y + height - 1);
+    printf("%c", b_right);
 }
 
 /*tisztogato fuggveny*/

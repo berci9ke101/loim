@@ -3,4 +3,4 @@ project(NAGYHF C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(NAGYHF main.c functions.c functions.h)
+add_executable(NAGYHF main.c functions.c functions.h econio.c econio.h menu.c menu.h)
