@@ -65,8 +65,11 @@ void print_to_console(char *file_name)
 /*konzolablak elnevezese es meretenek megvaltoztatasa*/
 void init_console_window(void)
 {
-    system("mode con:cols=120 lines=25");
-    system("title Legyel Te Is Adocsalo");
+    system("mode con:cols=119 lines=25");
+    econio_set_title("LOIM");
+    SetConsoleOutputCP(CP_UTF8);
+    econio_rawmode();
+    econio_kbhit();
 }
 
 /*karakter olvasasa portolas miatt*/
@@ -99,8 +102,63 @@ void buttons(void)
     }
 }
 
+/*fuggoleges kozepre igazito*/
+int vert_align(int window_width, int rectangle_width)
+{
+    return ((window_width - 1) / 2) - ((rectangle_width - 1) / 2);
+}
+
+/*vizszintes kozepre igazito*/
+int hor_align(int window_height, int rectangle_height)
+{
+    return ((window_height - 1) / 2) - ((rectangle_height - 1) / 2);
+}
+
+/*konzol oszlopok jelolese*/
+void debug_console(int width, int height)
+{
+    econio_clrscr();
+    econio_gotoxy(0, 0);
+    for (int k = 0; k < height; k++)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            if ((i % 10) == 5)
+            {
+                econio_textcolor(COL_MAGENTA);
+                printf("%d", i % 10);
+            }
+            else if ((i % 10) == 0)
+            {
+                econio_textcolor(COL_CYAN);
+                printf("%d", i % 10);
+            }
+            else
+            {
+                econio_textcolor(COL_WHITE);
+                printf("░");
+            }
+        }
+    }
+
+    //cross
+    econio_textcolor(COL_WHITE);
+    for (int y = 0; y < height; y++)
+    {
+        econio_gotoxy(vert_align(119, 1), y);
+        printf("█");
+    }
+    for (int x = 0; x < width; x++)
+    {
+        econio_gotoxy(x, hor_align(25, 1));
+        printf("█");
+    }
+
+}
+
 /*teglalap rajzolo fuggveny tetszoleges karakterekkel(UTF-8)*/
-void draw_rect_char_UTF8(int x, int y, int width, int height, char *hor, char *vert, char *t_left, char *t_right, char *b_left, char *b_right)
+void draw_rect_char_UTF8(int x, int y, int width, int height, char *hor, char *vert, char *t_left, char *t_right,
+                         char *b_left, char *b_right)
 {
 
     for (int i = 0; i < width - 1; i++)
@@ -133,7 +191,46 @@ void draw_rect_char_UTF8(int x, int y, int width, int height, char *hor, char *v
 
 void init_main_menu(void)
 {
-    draw_rect_char_UTF8(0, 0, 120, 25, "═", "║", "╔", "╗", "╚", "╝");
+    //frame
+    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
+
+    //main menu frame
+    draw_rect_char_UTF8(vert_align(119, 29), hor_align(25, 9), 29, 9, "═", "║", "╔", "╗", "╚", "╝");
+    //LOIM
+    econio_gotoxy(vert_align(119, 23), 3);
+    printf("Legyen Ön Is Milliomos!");
+    //start game
+    econio_gotoxy(vert_align(119, 17), 10);
+    printf("(*) Játék kezdése");
+    //scoreboard
+    econio_gotoxy(vert_align(119, 17), 12);
+    printf("( ) Dicsőségtábla");
+    //exit
+    econio_gotoxy(vert_align(119, 11), 14);
+    printf("( ) Kilépés");
+
+}
+
+void init_main_menu2(void)
+{
+    //frame
+    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
+
+    //main menu frame
+    draw_rect_char_UTF8(vert_align(119, 29), hor_align(25, 9), 29, 9, "═", "║", "╔", "╗", "╚", "╝");
+    //LOIM
+    econio_gotoxy(vert_align(119, 23), 3);
+    printf("Legyen Ön Is Milliomos!");
+    //start game
+    econio_gotoxy(vert_align(119, 17), 10);
+    printf("( ) Játék kezdése");
+    //scoreboard
+    econio_gotoxy(vert_align(119, 17), 12);
+    printf("(*) Dicsőségtábla");
+    //exit
+    econio_gotoxy(vert_align(119, 11), 14);
+    printf("( ) Kilépés");
+
 }
 
 /*tisztogato fuggveny*/
