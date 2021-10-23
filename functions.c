@@ -99,42 +99,41 @@ void buttons(void)
     }
 }
 
-/*teglalap rajzolo fuggveny tetszoleges karakterekkel*/
-void draw_rect_char(int x, int y, int width, int height, char *symb)
+/*teglalap rajzolo fuggveny tetszoleges karakterekkel(UTF-8)*/
+void draw_rect_char_UTF8(int x, int y, int width, int height, char *hor, char *vert, char *t_left, char *t_right, char *b_left, char *b_right)
 {
-    char hor = symb[0];
-    char vert = symb[1];
-    char t_left = symb[2];
-    char t_right = symb[3];
-    char b_left = symb[4];
-    char b_right = symb[5];
 
     for (int i = 0; i < width - 1; i++)
     {
         econio_gotoxy(x + i, y);
-        printf("%c", hor);
+        printf("%s", hor);
         econio_gotoxy(x + i, y + height - 1);
-        printf("%c", hor);
+        printf("%s", hor);
 
     }
 
     for (int i = 0; i < height - 1; i++)
     {
         econio_gotoxy(x, y + i);
-        printf("%c", vert);
+        printf("%s", vert);
         econio_gotoxy(x + width - 1, y + i);
-        printf("%c", vert);
+        printf("%s", vert);
     }
 
 
     econio_gotoxy(x, y);
-    printf("%c", t_left);
+    printf("%s", t_left);
     econio_gotoxy(x + width - 1, y);
-    printf("%c", t_right);
+    printf("%s", t_right);
     econio_gotoxy(x, y + height - 1);
-    printf("%c", b_left);
+    printf("%s", b_left);
     econio_gotoxy(x + width - 1, y + height - 1);
-    printf("%c", b_right);
+    printf("%s", b_right);
+}
+
+void init_main_menu(void)
+{
+    draw_rect_char_UTF8(0, 0, 120, 25, "═", "║", "╔", "╗", "╚", "╝");
 }
 
 /*tisztogato fuggveny*/

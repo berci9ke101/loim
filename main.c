@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "functions.h"
 #include "menu.h"
+#include "econio.h"
 
 #ifdef _WIN32
 
@@ -10,17 +11,14 @@
 
 int main()
 {
-//UTF-8 kodolas beallitasa
+    //ablak nevenek, kodolasanak es meretenek beallitasa
 #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
 #endif
-
-    //ablak nevenek es meretenek beallitasa
     init_console_window();
 
     init_main_menu();
-    draw_rect_char(45, 5, 20, 10, "-|++++");
-
+    //draw_rect_char(0, 0, 120, 25, "═║╔╗╚╝");
 
     int i;
     scanf("%d", &i);
