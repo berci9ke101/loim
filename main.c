@@ -14,7 +14,7 @@ int main()
     //ablak nevenek, kodolasanak es meretenek beallitasa
     init_console_window();
 
-    debug_console(119, 25);
+    //debug_console(119, 25);
 
     init_main_menu();
     //draw_rect_char(0, 0, 120, 25, "═║╔╗╚╝");
@@ -22,19 +22,41 @@ int main()
     /*print_to_console("../UI/MAIN_MENU.txt");
     buttons();*/
 
+    int menu_state = 0;
+    char a, b, c;
 
     while (true)
     {
         int key = econio_getch();
+        econio_flush();
 
         if (key == KEY_UP)
-            init_main_menu();
+        {
+            if (menu_state >= -2 && menu_state < 0)
+            {
+                menu_state++;
+            }
+        }
         else if (key == KEY_DOWN)
-            init_main_menu2();
-        else if (key == KEY_ESCAPE)
-            break;
-    }
+        {
+            if (menu_state > -2 && menu_state <= 0)
+            {
+                menu_state--;
+            }
+        }
+        else if (key == KEY_ENTER)
+        {
+            if (menu_state == -2)
+            {
+                break;
+            }
+        }
 
+        main_menu_state_switcher(menu_state, &a, &b, &c);
+        main_menu_select(a, b, c);
+
+    }
 
     return 0;
 }
+

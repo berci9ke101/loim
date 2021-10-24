@@ -12,6 +12,7 @@ int hor_align(int window_height, int rectangle_height);
 void debug_console(int width, int height);
 void draw_rect_char_UTF8(int x, int y, int width, int height, char *hor, char *vert, char *t_left, char *t_right, char *b_left, char *b_right);
 void init_main_menu(void);
-void init_main_menu2(void);
+void main_menu_state_switcher(int menu_state, char *a, char *b, char *c);
+void main_menu_select(char a, char b, char c);
 
 #endif //NAGYHF_FUNCTIONS_H

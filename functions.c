@@ -196,41 +196,57 @@ void init_main_menu(void)
 
     //main menu frame
     draw_rect_char_UTF8(vert_align(119, 29), hor_align(25, 9), 29, 9, "═", "║", "╔", "╗", "╚", "╝");
+
     //LOIM
     econio_gotoxy(vert_align(119, 23), 3);
     printf("Legyen Ön Is Milliomos!");
+
     //start game
     econio_gotoxy(vert_align(119, 17), 10);
-    printf("(*) Játék kezdése");
+    printf("(X) Játék kezdése");
+
     //scoreboard
     econio_gotoxy(vert_align(119, 17), 12);
     printf("( ) Dicsőségtábla");
+
     //exit
     econio_gotoxy(vert_align(119, 11), 14);
     printf("( ) Kilépés");
 
 }
 
-void init_main_menu2(void)
+void main_menu_state_switcher(int menu_state, char *a, char *b, char *c)
 {
-    //frame
-    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
+    if (menu_state == 0)
+    {
+        *a = 'X';
+        *b = ' ';
+        *c = ' ';
 
-    //main menu frame
-    draw_rect_char_UTF8(vert_align(119, 29), hor_align(25, 9), 29, 9, "═", "║", "╔", "╗", "╚", "╝");
-    //LOIM
-    econio_gotoxy(vert_align(119, 23), 3);
-    printf("Legyen Ön Is Milliomos!");
-    //start game
-    econio_gotoxy(vert_align(119, 17), 10);
-    printf("( ) Játék kezdése");
-    //scoreboard
-    econio_gotoxy(vert_align(119, 17), 12);
-    printf("(*) Dicsőségtábla");
-    //exit
-    econio_gotoxy(vert_align(119, 11), 14);
-    printf("( ) Kilépés");
+    }
+    else if (menu_state == -1)
+    {
+        *a = ' ';
+        *b = 'X';
+        *c = ' ';
+    }
+    else if (menu_state == -2)
+    {
+        *a = ' ';
+        *b = ' ';
+        *c = 'X';
+    }
 
+}
+
+void main_menu_select(char a, char b, char c)
+{
+    econio_gotoxy((vert_align(119, 17) + 1), 10);
+    printf("%c", a);
+    econio_gotoxy((vert_align(119, 17) + 1), 12);
+    printf("%c", b);
+    econio_gotoxy((vert_align(119, 11) + 1), 14);
+    printf("%c", c);
 }
 
 /*tisztogato fuggveny*/
