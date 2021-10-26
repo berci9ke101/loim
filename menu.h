@@ -1,7 +1,6 @@
-
 #ifndef NAGYHF_MENU_H
 #define NAGYHF_MENU_H
 
-void init_main_menu(void);
+void main_menu_buttons(void);
 
 #endif //NAGYHF_MENU_H

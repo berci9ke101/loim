@@ -1,13 +1,7 @@
-//
-// Function source file
-//
-#include <windows.h>
-#include <conio.h>
-#include <stdbool.h>
 #include <stdio.h>
+#include <windows.h>
 #include "econio.h"
 #include "functions.h"
-
 
 /*sorok megszamolasa egy fajlban*/
 int count_lines(char *file_name)
@@ -72,47 +66,6 @@ void init_console_window(void)
     econio_kbhit();
 }
 
-/*karakter olvasasa portolas miatt*/
-char char_read(void)
-{
-    //beolvassa a karakter (ASCII tabla)
-    return getch();
-}
-
-/*bemeneti gombokkal foglallkozo fuggveny*/
-void buttons(void)
-{
-    bool exit = false;
-
-    while (!exit)
-    {
-        switch (char_read())
-        {
-            //bemenetek gombjai, amik fuggvenyeket hivnak meg.
-            case '3':
-                print_to_console("../UI/MENU1.txt");
-                break;
-            case '2':
-                print_to_console("../UI/MENU2.txt");
-                break;
-            case 'e':
-                exit = true;
-                break;
-        }
-    }
-}
-
-/*fuggoleges kozepre igazito*/
-int vert_align(int window_width, int rectangle_width)
-{
-    return ((window_width - 1) / 2) - ((rectangle_width - 1) / 2);
-}
-
-/*vizszintes kozepre igazito*/
-int hor_align(int window_height, int rectangle_height)
-{
-    return ((window_height - 1) / 2) - ((rectangle_height - 1) / 2);
-}
 
 /*konzol oszlopok jelolese*/
 void debug_console(int width, int height)
@@ -213,40 +166,6 @@ void init_main_menu(void)
     econio_gotoxy(vert_align(119, 11), 14);
     printf("( ) Kilépés");
 
-}
-
-void main_menu_state_switcher(int menu_state, char *a, char *b, char *c)
-{
-    if (menu_state == 0)
-    {
-        *a = 'X';
-        *b = ' ';
-        *c = ' ';
-
-    }
-    else if (menu_state == -1)
-    {
-        *a = ' ';
-        *b = 'X';
-        *c = ' ';
-    }
-    else if (menu_state == -2)
-    {
-        *a = ' ';
-        *b = ' ';
-        *c = 'X';
-    }
-
-}
-
-void main_menu_select(char a, char b, char c)
-{
-    econio_gotoxy((vert_align(119, 17) + 1), 10);
-    printf("%c", a);
-    econio_gotoxy((vert_align(119, 17) + 1), 12);
-    printf("%c", b);
-    econio_gotoxy((vert_align(119, 11) + 1), 14);
-    printf("%c", c);
 }
 
 /*tisztogato fuggveny*/
