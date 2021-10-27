@@ -1,5 +1,10 @@
 #include "econio.h"
+#include "main_menu.h"
 #include "draw.h"
+#include "functions.h"
+#include "game.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void main_menu_state_switcher(int menu_state)
 {
@@ -59,13 +64,50 @@ void main_menu_buttons(void)
         }
         else if (key == KEY_ENTER)
         {
+            if (menu_state == 0)
+            {
+                game_init();
+                break;
+            }
+            if (menu_state == -1)
+            {
+                scoreboard();
+                break;
+            }
+
             if (menu_state == -2)
             {
-                break;
+                exit(0);
             }
         }
 
         main_menu_state_switcher(menu_state);
 
     }
+}
+
+void main_menu_init(void)
+{
+    //frame
+    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
+
+    //main menu frame
+    draw_rect_char_UTF8(vert_align(119, 29), hor_align(25, 9), 29, 9, "═", "║", "╔", "╗", "╚", "╝");
+
+    //LOIM
+    econio_gotoxy(vert_align(119, 23), 3);
+    printf("Legyen Ön Is Milliomos!");
+
+    //start game
+    econio_gotoxy(vert_align(119, 17), 10);
+    printf("(X) Játék kezdése");
+
+    //scoreboard
+    econio_gotoxy(vert_align(119, 17), 12);
+    printf("( ) Dicsőségtábla");
+
+    //exit
+    econio_gotoxy(vert_align(119, 11), 14);
+    printf("( ) Kilépés");
+
 }

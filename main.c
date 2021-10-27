@@ -1,19 +1,23 @@
-#include <stdio.h>
 #include "functions.h"
-#include "menu.h"
+#include "main_menu.h"
 
 int main()
 {
     //ablak nevenek, kodolasanak es meretenek beallitasa
-    init_console_window();
+    console_init();
 
 #ifdef DEBUG
-    debug_console(119, 25);
+    console_debug(119, 25);
 #endif
 
     //MAIN MENU
-    init_main_menu();
+    main_menu_init();
     main_menu_buttons();
+
+    while (1 == 1)
+    {
+        ;
+    }
 
     return 0;
 }
