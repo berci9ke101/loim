@@ -2,7 +2,7 @@
 
 void game_init(void)
 {
-    if (1 == 1)
+    while (1 == 1)
     {
         ;
     }
