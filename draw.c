@@ -1,6 +1,7 @@
 #include "draw.h"
 #include "econio.h"
 #include <stdio.h>
+#include <string.h>
 
 /*fuggoleges kozepre igazito*/
 int vert_align(int window_width, int rectangle_width)
@@ -45,4 +46,15 @@ void draw_rect_char_UTF8(int x, int y, int width, int height, char *hor, char *v
     printf("%s", b_left);
     econio_gotoxy(x + width - 1, y + height - 1);
     printf("%s", b_right);
+}
+
+/*szoveg jobbra igazitasa*/
+void text_left_align(char *text, int max_length)
+{
+    int space = max_length - strlen(text);
+    for (int i = 1; i <= space-3; i++)
+    {
+        printf(" ");
+    }
+    printf("%s Ft", text);
 }

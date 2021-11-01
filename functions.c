@@ -80,65 +80,6 @@ int count_lines(char *file_name)
     return max_line_count;
 }
 
-/*fajl kiiratasa a konzolba*/
-void scoreboard_print_to_console(void)
-{
-    char name[22];
-    char time[22];
-    char amount[22];
-
-    //fajl betoltese
-    FILE *file;
-    file = fopen("../scoreboard.txt", "r");
-    char buffer[255];
-
-    //jelenlegi sor es a max sorszam valtozoi
-    int linenum = 1;
-    int max_line_count = count_lines("../scoreboard.txt");
-
-    //kiiras
-    if (file)
-    {
-        while (linenum <= max_line_count)
-        {
-            fgets(buffer, 255, file);
-            sscanf(buffer, "%[^;];%[^;];%[^\n]", name, time, amount);
-
-            econio_gotoxy(28, (3+linenum));
-            printf("%s", name);
-
-            econio_gotoxy(50, (3+linenum));
-            printf("%s", time);
-
-            econio_gotoxy(72, (3+linenum));
-            printf("%s", amount);
-            linenum++;
-        }
-        fclose(file);
-    }
-    else
-    {
-        perror("");
-    }
-}
-
-void scoreboard()
-{
-    //kepernyo torlese
-    econio_clrscr();
-
-    //keret
-    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
-    draw_rect_char_UTF8(vert_align(119, 67), hor_align(25, 21), 67, 21, "═", "║", "╔", "╗", "╚", "╝");
-
-    //felirat
-    //econio_gotoxy(vert_align(119, 13), 4);
-   // printf("Dicsőségtábla");
-
-    //adatok kiirasa
-    scoreboard_print_to_console();
-}
-
 /*tisztogato fuggveny*/
 /*void clean_master_pro_900(void **p)
 {

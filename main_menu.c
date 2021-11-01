@@ -1,14 +1,15 @@
 #include "econio.h"
 #include "main_menu.h"
 #include "draw.h"
+#include "scoreboard.h"
 #include "functions.h"
 #include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void main_menu_state_switcher(int menu_state)
+void main_menu_state_switcher(int state)
 {
-    if (menu_state == 0)
+    if (state == 0)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
         printf("%c", 'X');
@@ -18,7 +19,7 @@ void main_menu_state_switcher(int menu_state)
         printf("%c", ' ');
 
     }
-    else if (menu_state == -1)
+    else if (state == -1)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
         printf("%c", ' ');
@@ -27,7 +28,7 @@ void main_menu_state_switcher(int menu_state)
         econio_gotoxy((vert_align(119, 11) + 1), 14);
         printf("%c", ' ');
     }
-    else if (menu_state == -2)
+    else if (state == -2)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
         printf("%c", ' ');
@@ -42,7 +43,7 @@ void main_menu_state_switcher(int menu_state)
 /*bemeneti gombokkal foglallkozo fuggveny*/
 void main_menu_buttons(void)
 {
-    int menu_state = 0;
+    int main_menu_state = 0;
     while (1)
     {
         int key = econio_getch();
@@ -50,44 +51,48 @@ void main_menu_buttons(void)
 
         if (key == KEY_UP)
         {
-            if (menu_state >= -2 && menu_state < 0)
+            if (main_menu_state >= -2 && main_menu_state < 0)
             {
-                menu_state++;
+                main_menu_state++;
             }
         }
         else if (key == KEY_DOWN)
         {
-            if (menu_state > -2 && menu_state <= 0)
+            if (main_menu_state > -2 && main_menu_state <= 0)
             {
-                menu_state--;
+                main_menu_state--;
             }
         }
         else if (key == KEY_ENTER)
         {
-            if (menu_state == 0)
+            if (main_menu_state == 0)
             {
-                game_init();
+                state = 2;
                 break;
             }
-            if (menu_state == -1)
+            if (main_menu_state == -1)
             {
-                scoreboard();
+                state = 1;
                 break;
             }
 
-            if (menu_state == -2)
+            if (main_menu_state == -2)
             {
                 exit(0);
             }
         }
 
-        main_menu_state_switcher(menu_state);
+        main_menu_state_switcher(main_menu_state);
 
     }
 }
 
 void main_menu_init(void)
 {
+#ifdef DEBUG
+    console_debug(119, 25);
+#endif
+
     //frame
     draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
 
