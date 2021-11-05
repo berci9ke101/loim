@@ -48,10 +48,10 @@ int main()
         print_time(minute, second);
         prev_time = timer(prev_time, &minute, &second);
 
-        //pressF();
+        pressF(); /*///////PAIN/////////*/
 
-        //int key = econio_getch(); //lenyomott gomb bekerese
-        int key = GetAsyncKeyState(VK_RETURN);
+        int key = econio_getch(); //lenyomott gomb bekerese
+        //int key = GetAsyncKeyState(VK_RETURN);
 
         econio_flush(); //folyekonyabb kirajzolas
 
