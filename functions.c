@@ -4,7 +4,18 @@
 #include "functions.h"
 #include "draw.h"
 
-/*konzol oszlopok jelolese*/
+/*kurzor elrejtese*/
+/*kozbeszerezve*/
+void hidecursor(void)
+{
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO info;
+    info.dwSize = 100;
+    info.bVisible = FALSE;
+    SetConsoleCursorInfo(consoleHandle, &info);
+}
+
+/*konzol oszlopok jelolese debug szempontbol*/
 void console_debug(int width, int height)
 {
     econio_clrscr();
@@ -52,8 +63,8 @@ void console_init(void)
     system("mode con:cols=119 lines=25");
     econio_set_title("LOIM");
     SetConsoleOutputCP(CP_UTF8);
+    hidecursor();
     econio_rawmode();
-    econio_kbhit();
 }
 
 /*sorok megszamolasa egy fajlban*/
@@ -78,6 +89,15 @@ int count_lines(char *file_name)
 
     //visszateres a sorok szamaval
     return max_line_count;
+}
+
+/*ez a fuggveny szimulalja az f gomb lenyomasat*/
+void pressF(void)
+{
+    //'f' key down
+    keybd_event(0x46,0x45,KEYEVENTF_EXTENDEDKEY|0,0);
+    //'f' key up
+    keybd_event(0x46,0x45,KEYEVENTF_EXTENDEDKEY|KEYEVENTF_KEYUP,0);
 }
 
 /*tisztogato fuggveny*/

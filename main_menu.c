@@ -1,14 +1,15 @@
 #include "econio.h"
 #include "main_menu.h"
 #include "draw.h"
-#include "scoreboard.h"
 #include "functions.h"
-#include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "timer.h"
 
+/*menupont valto fuggveny*/
 void main_menu_state_switcher(int state)
 {
+    //felso allas, X kirajzolasa csak az elso opciohoz
     if (state == 0)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
@@ -19,6 +20,7 @@ void main_menu_state_switcher(int state)
         printf("%c", ' ');
 
     }
+        //kozepso allas, X kirajzolasa csak a masodik opciohoz
     else if (state == -1)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
@@ -28,6 +30,7 @@ void main_menu_state_switcher(int state)
         econio_gotoxy((vert_align(119, 11) + 1), 14);
         printf("%c", ' ');
     }
+        //also allas, X kirajzolasa csak a harmadik opciohoz
     else if (state == -2)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
@@ -41,54 +44,68 @@ void main_menu_state_switcher(int state)
 }
 
 /*bemeneti gombokkal foglallkozo fuggveny*/
-void main_menu_buttons(void)
+void main_menu_buttons(int *global_state)
 {
-    int main_menu_state = 0;
+    int main_menu_state = 0; //legfelso menuallas beallitasa
+
+    /*
+     *  menuallas valtozo 3 allapota:
+     *
+     *   0 - jatek opcio kivalasztva
+     *  -1 - dicsosegtabla opcio kivalasztva
+     *  -2 - kilepes kivalasztva
+     *
+     * */
+
     while (1)
     {
-        int key = econio_getch();
-        econio_flush();
+        int key = econio_getch(); //lenyomott gomb bekerese
+        econio_flush(); //folyekonyabb kirajzolas
 
-        if (key == KEY_UP)
+        if (key == KEY_UP) //felfele nyilacska lenyomasa
         {
             if (main_menu_state >= -2 && main_menu_state < 0)
             {
-                main_menu_state++;
+                main_menu_state++; //menuallas valtozo leptetese
             }
         }
-        else if (key == KEY_DOWN)
+        else if (key == KEY_DOWN) //lefele nyilacska lenyomasa eseten
         {
             if (main_menu_state > -2 && main_menu_state <= 0)
             {
-                main_menu_state--;
+                main_menu_state--; //menuallas valtozo leptetese
             }
         }
-        else if (key == KEY_ENTER)
+        else if (key == KEY_ENTER) //enter lenyomasa eseten
         {
-            if (main_menu_state == 0)
+            if (main_menu_state == 0) //jatek opcio
             {
-                state = 2;
+                *global_state = 2; //jatek kezdese
                 break;
             }
-            if (main_menu_state == -1)
+            if (main_menu_state == -1) //dicsosegtabla opcio
             {
-                state = 1;
+                *global_state = 1; //dicsosegtabla megnyitasa
                 break;
             }
 
-            if (main_menu_state == -2)
+            if (main_menu_state == -2) //kilepes opcio
             {
-                exit(0);
+                exit(0); //kilepes a "0" hibakoddal
             }
         }
 
-        main_menu_state_switcher(main_menu_state);
+        main_menu_state_switcher(main_menu_state); //valtoztatott menu kirajzolasa
 
     }
 }
 
+/*menu inicializalo fuggveny*/
 void main_menu_init(void)
 {
+    //kepernyo "tisztitasa"
+    econio_clrscr();
+
 #ifdef DEBUG
     console_debug(119, 25);
 #endif

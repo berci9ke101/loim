@@ -1,14 +1,25 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "scoreboard.h"
-#include "functions.h"
 #include "econio.h"
 #include "draw.h"
-#include "main_menu.h"
-#include <stdlib.h>
+
+/*szoveg jobbra igazitasa a scoreboardhoz*/
+void scoreboard_right_align(char *text, int max_length)
+{
+    int space = max_length - strlen(text); //spacek segitsegevel igazitja a szoveget jobbra
+    for (int i = 1; i <= space; i++) //spacek kiirasa
+    {
+        printf(" ");
+    }
+    printf("%s", text); //szoveg kiirasa
+}
 
 /*fajl kiiratasa a konzolba*/
 void scoreboard_print_to_console(void)
 {
+    //beolvasott szoveg maximalis hossza
     char name[20 + 1];
     char time[5 + 1];
     char amount[10 + 1];
@@ -19,47 +30,70 @@ void scoreboard_print_to_console(void)
     char buffer[255];
 
     //jelenlegi sor, a sorok kozti tavolsag es a max sorszam valtozoi
-    int linenum = 1;
-    int spacer = 0;
-    int max_line_count = count_lines("../scoreboard.txt");
+    int linenum = 1; //a jelenlegi sor sorszama
+    int spacer = 0; //a tavolsag 0-rol indul, majd kettesevel novekszik
+    int max_line_count = 8; //8 a dicsosegtabla  bejegyzeseinek szamas
 
     //kiiras
     if (file)
     {
-        while (linenum <= max_line_count)
+        while (linenum <= max_line_count) //osszes sor kiirasa,
         {
             fgets(buffer, 255, file);
             sscanf(buffer, "%[^;];%[^;];%[^\n]", name, time, amount);
 
-
+            //a kategoriak meretre "apritasa"
             name[20] = '\0';
             time[5] = '\0';
             amount[10] = '\0';
 
-
+            //nev "rublika"
             econio_gotoxy(28, (6 + spacer));
             printf(" %d. %s", linenum, name);
 
+            //ido "rublika"
             econio_gotoxy(57, (6 + spacer));
             printf("%s", time);
 
+            //nyeremeny "rublika"
             econio_gotoxy(72, (6 + spacer));
-            text_left_align(amount, 18);
+            scoreboard_right_align(amount, 15);
+            printf(" Ft");
 
+            //sorok kozti tavolsag es a sorszam novelese
             spacer += 2;
             linenum++;
         }
-        fclose(file);
+        fclose(file); //fajl bezarasa
     }
     else
     {
-        perror("");
+        perror("Scoreboard file error."); //hiba eseten kilepes adott hibakoddal
+        exit(-1);
     }
 }
 
+/*bemeneti gombokkal foglallkozo fuggveny*/
+void scoreboard_buttons(int *global_state)
+{
+    while (1)
+    {
+        int key = econio_getch(); //a megnyomott gomb bekerese
+        econio_flush(); //folyekonyabb kirajzolas
+
+        if (key == KEY_ENTER)
+        {
+            *global_state = 0; //a globalis menuvaltozo fomenure (0)-ra valo allitasa
+            break;
+        }
+
+    }
+}
+
+/*dicsosegtabla inicializalasa*/
 void scoreboard_init(void)
 {
-    //kepernyo torlese
+    //kepernyo "tisztitasa"
     econio_clrscr();
 
     //debug mode
@@ -82,21 +116,4 @@ void scoreboard_init(void)
     econio_gotoxy(4, hor_align(25, 1));
     printf("(X) Vissza");
 
-}
-
-/*bemeneti gombokkal foglallkozo fuggveny*/
-void scoreboard_buttons(void)
-{
-    while (1)
-    {
-        int key = econio_getch();
-        econio_flush();
-
-        if (key == KEY_ENTER)
-        {
-            main_menu_init();
-            break;
-        }
-
-    }
 }
