@@ -30,7 +30,8 @@ int main()
         else if (global_state == 1) //ha a menuvaltozo 1 erteken van a nehezsegi szint valaszto ugrik elo
         {
             //DIFFICULTY
-            ;
+            difficulty_init();
+            difficulty_buttons(&global_state, &difficulty);
         }
         else if (global_state == 2) //ha a menuvaltozo 2 erteken van a dicsosegtabla ugrik elo
         {
