@@ -1,6 +1,7 @@
 #include "functions.h"
 #include "main_menu.h"
 #include "scoreboard.h"
+#include "difficulty.h"
 #include "game.h"
 #include "timer.h"
 #include <time.h>
@@ -26,13 +27,18 @@ int main()
             main_menu_init();
             main_menu_buttons(&global_state);
         }
-        else if (global_state == 1) //ha a menuvaltozo 1 erteken van a dicsosegtabla ugrik elo
+        else if (global_state == 1) //ha a menuvaltozo 1 erteken van a nehezsegi szint valaszto ugrik elo
+        {
+            //DIFFICULTY
+            ;
+        }
+        else if (global_state == 2) //ha a menuvaltozo 2 erteken van a dicsosegtabla ugrik elo
         {
             //SCOREBOARD
             scoreboard_init();
             scoreboard_buttons(&global_state);
         }
-        else if (global_state == 2) //ha a menuvaltozo 2 erteken van elkezdodiik a jatek
+        else if (global_state == 3) //ha a menuvaltozo 3 erteken van elkezdodiik a jatek
         {
             //GAME
             break;

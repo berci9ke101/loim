@@ -14,9 +14,11 @@ void main_menu_state_switcher(int state)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
         printf("%c", 'X');
-        econio_gotoxy((vert_align(119, 17) + 1), 12);
+        econio_gotoxy((vert_align(119, 19) + 1), 12);
         printf("%c", ' ');
-        econio_gotoxy((vert_align(119, 11) + 1), 14);
+        econio_gotoxy((vert_align(119, 17) + 1), 14);
+        printf("%c", ' ');
+        econio_gotoxy((vert_align(119, 11) + 1), 16);
         printf("%c", ' ');
 
     }
@@ -25,9 +27,11 @@ void main_menu_state_switcher(int state)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
         printf("%c", ' ');
-        econio_gotoxy((vert_align(119, 17) + 1), 12);
+        econio_gotoxy((vert_align(119, 19) + 1), 12);
         printf("%c", 'X');
-        econio_gotoxy((vert_align(119, 11) + 1), 14);
+        econio_gotoxy((vert_align(119, 17) + 1), 14);
+        printf("%c", ' ');
+        econio_gotoxy((vert_align(119, 11) + 1), 16);
         printf("%c", ' ');
     }
         //also allas, X kirajzolasa csak a harmadik opciohoz
@@ -35,9 +39,22 @@ void main_menu_state_switcher(int state)
     {
         econio_gotoxy((vert_align(119, 17) + 1), 10);
         printf("%c", ' ');
-        econio_gotoxy((vert_align(119, 17) + 1), 12);
+        econio_gotoxy((vert_align(119, 19) + 1), 12);
         printf("%c", ' ');
-        econio_gotoxy((vert_align(119, 11) + 1), 14);
+        econio_gotoxy((vert_align(119, 17) + 1), 14);
+        printf("%c", 'X');
+        econio_gotoxy((vert_align(119, 11) + 1), 16);
+        printf("%c", ' ');
+    }
+    else if (state == -3)
+    {
+        econio_gotoxy((vert_align(119, 17) + 1), 10);
+        printf("%c", ' ');
+        econio_gotoxy((vert_align(119, 19) + 1), 12);
+        printf("%c", ' ');
+        econio_gotoxy((vert_align(119, 17) + 1), 14);
+        printf("%c", ' ');
+        econio_gotoxy((vert_align(119, 11) + 1), 16);
         printf("%c", 'X');
     }
 
@@ -65,14 +82,14 @@ void main_menu_buttons(int *global_state)
 
         if (key == KEY_UP) //felfele nyilacska lenyomasa
         {
-            if (main_menu_state >= -2 && main_menu_state < 0)
+            if (main_menu_state >= -3 && main_menu_state < 0)
             {
                 main_menu_state++; //menuallas valtozo leptetese
             }
         }
         else if (key == KEY_DOWN) //lefele nyilacska lenyomasa eseten
         {
-            if (main_menu_state > -2 && main_menu_state <= 0)
+            if (main_menu_state > -3 && main_menu_state <= 0)
             {
                 main_menu_state--; //menuallas valtozo leptetese
             }
@@ -81,16 +98,21 @@ void main_menu_buttons(int *global_state)
         {
             if (main_menu_state == 0) //jatek opcio
             {
-                *global_state = 2; //jatek kezdese
+                *global_state = 3; //jatek kezdese
                 break;
             }
-            if (main_menu_state == -1) //dicsosegtabla opcio
+            if (main_menu_state == -1) //nehezsegi szint beallitasa
             {
-                *global_state = 1; //dicsosegtabla megnyitasa
+                *global_state = 1; //nehezsegi szint megnyitasa
+                break;
+            }
+            if (main_menu_state == -2) //dicsosegtabla opcio
+            {
+                *global_state = 2; //dicsosegtabla megnyitasa
                 break;
             }
 
-            if (main_menu_state == -2) //kilepes opcio
+            if (main_menu_state == -3) //kilepes opcio
             {
                 exit(0); //kilepes a "0" hibakoddal
             }
@@ -115,7 +137,7 @@ void main_menu_init(void)
     draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
 
     //main menu frame
-    draw_rect_char_UTF8(vert_align(119, 29), hor_align(25, 9), 29, 9, "═", "║", "╔", "╗", "╚", "╝");
+    draw_rect_char_UTF8(vert_align(119, 29), 8, 29, 11, "═", "║", "╔", "╗", "╚", "╝");
 
     //LOIM
     econio_gotoxy(vert_align(119, 23), 3);
@@ -125,12 +147,16 @@ void main_menu_init(void)
     econio_gotoxy(vert_align(119, 17), 10);
     printf("(X) Játék kezdése");
 
+    //difficulty
+    econio_gotoxy(vert_align(119, 19), 12);
+    printf("( ) Nehézségi szint");
+
     //scoreboard
-    econio_gotoxy(vert_align(119, 17), 12);
+    econio_gotoxy(vert_align(119, 17), 14);
     printf("( ) Dicsőségtábla");
 
     //exit
-    econio_gotoxy(vert_align(119, 11), 14);
+    econio_gotoxy(vert_align(119, 11), 16);
     printf("( ) Kilépés");
 
 }
