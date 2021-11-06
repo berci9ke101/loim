@@ -3,6 +3,20 @@
 #include <stdio.h>
 #include <string.h>
 
+/*nyilak kitorlese*/
+void del_arrows(void)
+{
+    int k = 1;
+    for (int i = 17; i >= 1; i--)
+    {
+        if (i != 6 && i != 12)
+        {
+            econio_gotoxy(102, i);
+            printf("  ");
+        }
+    }
+}
+
 /*fuggoleges kozepre igazito*/
 int vert_align(int window_width, int rectangle_width)
 {

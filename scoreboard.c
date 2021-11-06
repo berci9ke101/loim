@@ -5,23 +5,12 @@
 #include "econio.h"
 #include "draw.h"
 
-/*szoveg jobbra igazitasa a scoreboardhoz*/
-void scoreboard_right_align(char *text, int max_length)
-{
-    int space = max_length - strlen(text); //spacek segitsegevel igazitja a szoveget jobbra
-    for (int i = 1; i <= space; i++) //spacek kiirasa
-    {
-        printf(" ");
-    }
-    printf("%s", text); //szoveg kiirasa
-}
-
 /*fajl kiiratasa a konzolba*/
 void scoreboard_print_to_console(void)
 {
     //beolvasott szoveg maximalis hossza
     char name[20 + 1];
-    char time[5 + 1];
+    char time[8 + 1];
     char amount[10 + 1];
 
     //fajl betoltese
@@ -44,7 +33,7 @@ void scoreboard_print_to_console(void)
 
             //a kategoriak meretre "apritasa"
             name[20] = '\0';
-            time[5] = '\0';
+            time[8] = '\0';
             amount[10] = '\0';
 
             //nev "rublika"
@@ -52,12 +41,12 @@ void scoreboard_print_to_console(void)
             printf(" %d. %s", linenum, name);
 
             //ido "rublika"
-            econio_gotoxy(57, (6 + spacer));
+            econio_gotoxy(55, (6 + spacer));
             printf("%s", time);
 
             //nyeremeny "rublika"
             econio_gotoxy(72, (6 + spacer));
-            scoreboard_right_align(amount, 15);
+            printf("%*s", 15, amount);
             printf(" Ft");
 
             //sorok kozti tavolsag es a sorszam novelese

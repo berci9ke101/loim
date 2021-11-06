@@ -5,7 +5,7 @@
 #include "draw.h"
 
 /*kurzor elrejtese*/
-/*kozbeszerezve*/
+/*forras: https://stackoverflow.com/a/30126700*/
 void hidecursor(void)
 {
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -94,9 +94,9 @@ int count_lines(char *file_name)
 /*ez a fuggveny szimulalja az f gomb lenyomasat*/
 void pressF(void)
 {
-    //'f' key down
+    //F down
     keybd_event(0x46,0x45,KEYEVENTF_EXTENDEDKEY|0,0);
-    //'f' key up
+    //F up
     keybd_event(0x46,0x45,KEYEVENTF_EXTENDEDKEY|KEYEVENTF_KEYUP,0);
 }
 

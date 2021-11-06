@@ -12,12 +12,12 @@
 
 int main()
 {
-    int minute = 0;
-    int second = 0;
-
+    /*KEZDOERTEKEK BELLITASA*/
+    int difficulty = 0;
     int global_state = 0; //menuvaltozo inicializalasa
     console_init(); //konzolablak inicializalasa
 
+    /*MAIN MENU ES SCOREBOARD*/
     while (1)
     {
         if (global_state == 0) //ha a menuvaltozo 0 erteken van a fomenu ugrik elo
@@ -35,41 +35,56 @@ int main()
         else if (global_state == 2) //ha a menuvaltozo 2 erteken van elkezdodiik a jatek
         {
             //GAME
-            game_init();
-            //game_buttons(&global_state);
             break;
         }
     }
 
+    /*GAME*/
+
+    /*ORA INICIALIZALASA*/
+    int hour = 0;
+    int minute = 0;
+    int second = 0;
     time_t prev_time = time(0);
+
+    /*KERDES VALTOZO ES A NYERT OSSZEG "NULLAZASA"*/
+    int questionnum = 1;
+    int amount = 0;
+    int fix_amount = 0;
+
+    /*MAGA A JATEK*/
+    game_init(); //felhasznaloi felulet kirajzolasa es a jatek inicializalasa
 
     while (1)
     {
-        print_time(minute, second);
-        prev_time = timer(prev_time, &minute, &second);
-
-        pressF(); /*///////PAIN/////////*/
+        /*TIMER*/
+        print_time(hour, minute, second); //ido kiiratasa
+        prev_time = timer(prev_time, &hour, &minute, &second); //maga a timer fuggvenye
+        pressF(); //f billentyu folyamatos nyomkodasa
+        //ez azert kell, mert a conioban a getch egyidejuleg erzekeli a billentyülenyomasokat es addig var a program,
+        //amig nem kap lenyomott billentyut. Ezert imitalunk egy billentyulenyomast, hogy a timer kiirasa folyekony legyen.
 
         int key = econio_getch(); //lenyomott gomb bekerese
-        //int key = GetAsyncKeyState(VK_RETURN);
 
         econio_flush(); //folyekonyabb kirajzolas
 
-        econio_gotoxy(12, 12);
-        printf("%d", key);
+        /*oldalso nyeremeny tablazat frissitese*/
+        econio_sleep(0.001); //hogy ne villodzon a kirajzolt nyilacska
+        arrow_and_reward(questionnum, &amount, &fix_amount); //nyilacska kirajzolasa a jelnlegi kerdes alapjan
 
-        if ((key & 0x01))
+        /*kerdesek es valaszok betoltese*/
+
+        /*vezerles*/
+
+        if (key == KEY_ESCAPE)
         {
             econio_gotoxy(0, 0);
-            printf("%02d:%02d", minute, second);
+            printf("%02d:%02d:%02d", hour, minute, second);
             econio_sleep(1);
             system("NAGYHF.exe");
-            exit(0);
+            return 0;
         }
 
     }
-
-
-    return 0;
+    //return 0;
 }
-

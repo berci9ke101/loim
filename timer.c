@@ -3,7 +3,7 @@
 #include "econio.h"
 #include <time.h>
 
-time_t timer(time_t prev_time, int *minute, int *second)
+time_t timer(time_t prev_time, int *hour, int *minute, int *second)
 {
     time_t current_time = time(0);
 
@@ -17,12 +17,18 @@ time_t timer(time_t prev_time, int *minute, int *second)
         (*minute)++;
     }
 
+    if (*minute == 60)
+    {
+        *minute = 0;
+        (*hour)++;
+    }
+
     return current_time;
 
 }
 
-void print_time(int minute, int second)
+void print_time(int hour, int minute, int second)
 {
     econio_gotoxy(1, 1);
-    printf("%02d:%02d", minute, second);
+    printf("%02d:%02d:%02d", hour, minute, second);
 }

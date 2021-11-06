@@ -52,8 +52,9 @@ void main_menu_buttons(int *global_state)
      *  menuallas valtozo 3 allapota:
      *
      *   0 - jatek opcio kivalasztva
-     *  -1 - dicsosegtabla opcio kivalasztva
-     *  -2 - kilepes kivalasztva
+     *  -1 - nehezsegi szint beallitasa
+     *  -2 - dicsosegtabla opcio kivalasztva
+     *  -3 - kilepes kivalasztva
      *
      * */
 
