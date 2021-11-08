@@ -1,0 +1,4 @@
+#ifndef NAGYHF_QUESTION_H
+#define NAGYHF_QUESTION_H
+
+#endif //NAGYHF_QUESTION_H

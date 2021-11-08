@@ -5,6 +5,7 @@
 #include "game.h"
 #include "draw.h"
 #include "timer.h"
+#include <stdbool.h>
 #include <time.h>
 
 
@@ -62,10 +63,11 @@ int main()
     int questionnum = 1;
     int amount = 0;
     int fix_amount = 0;
+    bool used_audience = false;
+    bool used_half = false;
 
     /*MAGA A JATEK*/
     game_init(); //felhasznaloi felulet kirajzolasa es a jatek inicializalasa
-    draw_audience("A");
 
     while (1)
     {
@@ -73,9 +75,6 @@ int main()
         /*TIMER*/
         print_time(hour, minute, second); //ido kiiratasa
         prev_time = timer(prev_time, &hour, &minute, &second); //maga a timer fuggvenye
-        pressF(); //f billentyu folyamatos nyomkodasa
-        //ez azert kell, mert a conioban a getch egyidejuleg erzekeli a billentyülenyomasokat es addig var a program,
-        //amig nem kap lenyomott billentyut. Ezert imitalunk egy billentyulenyomast, hogy a timer kiirasa folyekony legyen.
 
         /*oldalso nyeremeny tablazat frissitese*/
         econio_sleep(0.001); //hogy ne villodzon a kirajzolt nyilacska
@@ -85,9 +84,57 @@ int main()
 
 
         /*vezerles*/
+        int key; //lenyomott billentyű változója
 
-        int key = econio_getch(); //lenyomott gomb bekerese
-        if (key == KEY_ESCAPE)
+        if (econio_kbhit())
+        {
+            key = econio_getch(); //lenyomott gomb bekérése, ha tortent billentyulenyomas
+            econio_gotoxy(4, 4);
+            printf("%d", key);
+        }
+
+        /*A valasztasa*/
+        if (key == 97)
+        { ;
+        }
+
+            /*B valasztasa*/
+        else if (key == 98)
+        { ;
+        }
+
+            /*C valasztasa*/
+        else if (key == 99)
+        { ;
+        }
+
+            /*D valasztasa*/
+        else if (key == 100)
+        { ;
+        }
+
+            /*K valasztasa*/
+        else if (key == 107)
+        {
+            if (!used_audience)
+            {
+                draw_audience(QUESTION.answer);
+                used_audience = true;
+            }
+        }
+
+            /*F valasztasa*/
+        else if (key == 102)
+        {
+//            if (!used_half)
+//            {
+//                half();
+//                used_half = true;
+//            }
+        }
+
+            /*kilepeskor a nev megadasa*/
+        else if (key == KEY_ESCAPE)
         {
             econio_gotoxy(0, 0);
             printf("%02d:%02d:%02d", hour, minute, second);
@@ -96,7 +143,7 @@ int main()
             return 0;
         }
 
-        /*kilepeskor a nev megadasa*/
+        key = KEY_UNKNOWNKEY; //ha nincs input, akkor ismeretlen billentyűre állítás
 
         /*scoreboardba iras*/
 

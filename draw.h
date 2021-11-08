@@ -1,6 +1,7 @@
 #ifndef NAGYHF_DRAW_H
 #define NAGYHF_DRAW_H
 
+char *percent_block(int number);
 void draw_audience(char *answer);
 void del_arrows(void);
 int vert_align(int window_width, int rectangle_width);

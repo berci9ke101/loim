@@ -8,37 +8,38 @@
 /*szazalek ertek atvaltasa blokkokba*/
 char *percent_block(int number)
 {
+    number /= 10;
     switch (number)
     {
         case 0:
-            return "";
-        case 1:
             return "▒";
-        case 2:
+        case 1:
             return "▒▒";
-        case 3:
+        case 2:
             return "▒▒▒";
-        case 4:
+        case 3:
             return "▒▒▒▒";
-        case 5:
+        case 4:
             return "▒▒▒▒▒";
-        case 6:
+        case 5:
             return "▒▒▒▒▒▒";
-        case 7:
+        case 6:
             return "▒▒▒▒▒▒▒";
-        case 8:
+        case 7:
             return "▒▒▒▒▒▒▒▒";
-        case 9:
+        case 8:
             return "▒▒▒▒▒▒▒▒▒";
+        case 9:
+            return "▒▒▒▒▒▒▒▒▒▒";
         default:
-            return NULL;
+            return "";
     }
 }
 
 /*kozonseg velemenye*/
 void draw_audience(char *answer)
 {
-    int nums[4] = {rand() % 10, rand() % 10, rand() % 10, rand() % 10}; //random szamok generalasa
+    int nums[4] = {rand() % 100, rand() % 100, rand() % 100, rand() % 100}; //random szamok generalasa
 
     bubble_sort(4, nums); //szamok rendezese novekvo sorrendbe
 
@@ -57,13 +58,46 @@ void draw_audience(char *answer)
     if (strcmp(answer, "A") == 0)
     {
         econio_gotoxy(4, 11);
-        printf("%s%d", percent_block(nums[3]), nums[3]*10);
+        printf("%s%d", percent_block(nums[3]), nums[3]);
         econio_gotoxy(4, 12);
-        printf("%s%d", percent_block(nums[2]), nums[2]*10);
+        printf("%s%d", percent_block(nums[1]), nums[1]);
         econio_gotoxy(4, 13);
-        printf("%s%d", percent_block(nums[1]), nums[1]*10);
+        printf("%s%d", percent_block(nums[0]), nums[0]);
         econio_gotoxy(4, 14);
-        printf("%s%d", percent_block(nums[0]), nums[0]*10);
+        printf("%s%d", percent_block(nums[2]), nums[2]);
+    }
+    else if (strcmp(answer, "B") == 0)
+    {
+        econio_gotoxy(4, 11);
+        printf("%s%d", percent_block(nums[1]), nums[1]);
+        econio_gotoxy(4, 12);
+        printf("%s%d", percent_block(nums[3]), nums[3]);
+        econio_gotoxy(4, 13);
+        printf("%s%d", percent_block(nums[0]), nums[0]);
+        econio_gotoxy(4, 14);
+        printf("%s%d", percent_block(nums[2]), nums[2]);
+    }
+    else if (strcmp(answer, "C") == 0)
+    {
+        econio_gotoxy(4, 11);
+        printf("%s%d", percent_block(nums[0]), nums[0]);
+        econio_gotoxy(4, 12);
+        printf("%s%d", percent_block(nums[1]), nums[1]);
+        econio_gotoxy(4, 13);
+        printf("%s%d", percent_block(nums[3]), nums[3]);
+        econio_gotoxy(4, 14);
+        printf("%s%d", percent_block(nums[2]), nums[2]);
+    }
+    else if (strcmp(answer, "D") == 0)
+    {
+        econio_gotoxy(4, 11);
+        printf("%s%d", percent_block(nums[1]), nums[1]);
+        econio_gotoxy(4, 12);
+        printf("%s%d", percent_block(nums[2]), nums[2]);
+        econio_gotoxy(4, 13);
+        printf("%s%d", percent_block(nums[0]), nums[0]);
+        econio_gotoxy(4, 14);
+        printf("%s%d", percent_block(nums[3]), nums[3]);
     }
 }
 

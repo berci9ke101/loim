@@ -109,12 +109,3 @@ int count_lines(char *file_name)
     //visszateres a sorok szamaval
     return max_line_count;
 }
-
-/*ez a fuggveny szimulalja az f gomb lenyomasat*/
-void pressF(void)
-{
-    //F down
-    keybd_event(0x46, 0x45, KEYEVENTF_EXTENDEDKEY | 0, 0);
-    //F up
-    keybd_event(0x46, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-}

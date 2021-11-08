@@ -180,7 +180,7 @@ void game_init(void)
 
     //help
     econio_gotoxy(3, 21);
-    printf("telefonos segítség (T)");
+    printf("kérdések felezése (F)");
     econio_gotoxy(3, 22);
     printf("közönség véleménye (K)");
 
