@@ -1,20 +1,8 @@
 #include "question.h"
+#include "econio.h"
 #include <stdio.h>
 #include <windows.h>
 #include <string.h>
-#include <time.h>
-
-/*KERDES STRUKTURA*/
-typedef struct QUESTION
-{
-    char *difficulty;
-    char *question;
-    char *A;
-    char *B;
-    char *C;
-    char *D;
-    char *answer;
-} QUESTION;
 
 int count_lines(char *file_name)
 {
@@ -138,4 +126,27 @@ QUESTION load_question_by_difficulty(int difficulty)
     }
 
     return loim;
+}
+
+/*kerdes es a valaszok kirajzolasa*/
+void print_question(QUESTION *loim)
+{
+    /*A*/
+    econio_gotoxy(16, 12);
+    printf("A: %s", loim->A);
+
+    /*B*/
+    econio_gotoxy(19, 13);
+    printf("B: %s", loim->B);
+
+    /*C*/
+    econio_gotoxy(59, 12);
+    printf("C: %s", loim->C);
+
+    /*D*/
+    econio_gotoxy(59, 13);
+    printf("D: %s", loim->D);
+
+    /*QUESTION*/
+
 }

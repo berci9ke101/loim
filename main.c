@@ -5,6 +5,7 @@
 #include "game.h"
 #include "draw.h"
 #include "timer.h"
+#include "question.h"
 #include <stdbool.h>
 #include <time.h>
 
@@ -61,10 +62,12 @@ int main()
 
     /*KERDES VALTOZO, SEGITSEGEK ES A NYERT OSSZEG "NULLAZASA"*/
     int questionnum = 1;
+    int prev_questionnum;
     int amount = 0;
     int fix_amount = 0;
     bool used_audience = false;
     bool used_half = false;
+    QUESTION loim;
 
     /*MAGA A JATEK*/
     game_init(); //felhasznaloi felulet kirajzolasa es a jatek inicializalasa
@@ -80,7 +83,18 @@ int main()
         econio_sleep(0.001); //hogy ne villodzon a kirajzolt nyilacska
         arrow_and_reward(questionnum, &amount, &fix_amount); //nyilacska kirajzolasa a jelnlegi kerdes alapjan
 
-        /*kerdesek es valaszok betoltese*/
+        /*kerdes es valaszok betoltese, kiirasa*/
+        if (questionnum != prev_questionnum)
+        {
+            loim = load_question_by_difficulty(diffselect(difficulty)); //random kerdes betoltese nehezseg alapjan
+            prev_questionnum = questionnum;
+
+            print_question(loim);
+
+            free_QUESTION(loim);
+        }
+
+        /*kerdes es valaszok kirajzolasa*/
 
 
         /*vezerles*/
@@ -118,7 +132,7 @@ int main()
         {
             if (!used_audience)
             {
-                draw_audience(QUESTION.answer);
+                draw_audience(loim.answer);
                 used_audience = true;
             }
         }
