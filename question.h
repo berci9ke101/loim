@@ -13,9 +13,10 @@ typedef struct QUESTION
     char *answer;
 } QUESTION;
 
-int count_lines(char *file_name);
 char *load_a_random_question(void);
 void free_QUESTION(QUESTION loim);
 QUESTION load_question_by_difficulty(int difficulty);
+void print_question(QUESTION loim);
+void print_cheat(QUESTION loim);
 
 #endif //NAGYHF_QUESTION_H

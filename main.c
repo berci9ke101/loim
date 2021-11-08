@@ -62,7 +62,7 @@ int main()
 
     /*KERDES VALTOZO, SEGITSEGEK ES A NYERT OSSZEG "NULLAZASA"*/
     int questionnum = 1;
-    int prev_questionnum;
+    int prev_questionnum = 0;
     int amount = 0;
     int fix_amount = 0;
     bool used_audience = false;
@@ -87,14 +87,18 @@ int main()
         if (questionnum != prev_questionnum)
         {
             loim = load_question_by_difficulty(diffselect(difficulty)); //random kerdes betoltese nehezseg alapjan
-            prev_questionnum = questionnum;
 
+            /*kerdes es valaszok kirajzolasa*/
             print_question(loim);
 
-            free_QUESTION(loim);
-        }
+#ifdef DEBUG
+            print_cheat(loim);
+#endif
 
-        /*kerdes es valaszok kirajzolasa*/
+            free_QUESTION(loim);
+
+            prev_questionnum = questionnum;
+        }
 
 
         /*vezerles*/
@@ -103,28 +107,58 @@ int main()
         if (econio_kbhit())
         {
             key = econio_getch(); //lenyomott gomb bekérése, ha tortent billentyulenyomas
-            econio_gotoxy(4, 4);
-            printf("%d", key);
         }
 
         /*A valasztasa*/
         if (key == 97)
-        { ;
+        {
+            if (strcmp(loim.answer, "A") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                exit(0);
+            }
         }
 
             /*B valasztasa*/
         else if (key == 98)
-        { ;
+        {
+            if (strcmp(loim.answer, "B") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                exit(0);
+            }
         }
 
             /*C valasztasa*/
         else if (key == 99)
-        { ;
+        {
+            if (strcmp(loim.answer, "C") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                exit(0);
+            }
         }
 
             /*D valasztasa*/
         else if (key == 100)
-        { ;
+        {
+            if (strcmp(loim.answer, "D") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                exit(0);
+            }
         }
 
             /*K valasztasa*/
@@ -134,6 +168,8 @@ int main()
             {
                 draw_audience(loim.answer);
                 used_audience = true;
+                econio_gotoxy(3, 22);
+                printf("                      ");
             }
         }
 
@@ -160,6 +196,7 @@ int main()
         key = KEY_UNKNOWNKEY; //ha nincs input, akkor ismeretlen billentyűre állítás
 
         /*scoreboardba iras*/
+
 
     }
     //return 0;
