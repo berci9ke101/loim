@@ -2,7 +2,6 @@
 #include "econio.h"
 #include "draw.h"
 #include "functions.h"
-#include <stdlib.h>
 #include <stdio.h>
 
 void difficulty_state_switcher(int state)
@@ -142,7 +141,7 @@ void difficulty_init(void)
 
     //easy
     econio_gotoxy(vert_align(119, 10), 10);
-    printf("( ) Könnyű");
+    printf("(X) Könnyű");
 
     //normal
     econio_gotoxy(vert_align(119, 11), 12);
@@ -154,6 +153,6 @@ void difficulty_init(void)
 
     //exit
     econio_gotoxy(vert_align(119, 11), 16);
-    printf("(X) Vissza");
+    printf("( ) Vissza");
 
 }

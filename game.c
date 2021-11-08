@@ -3,6 +3,8 @@
 #include "draw.h"
 #include "scoreboard.h"
 #include "functions.h"
+#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 /*aktualis kerdes jelzese, illetve a nyeremeny megadasa*/
@@ -184,3 +186,61 @@ void game_init(void)
 
 
 }
+
+///*kerdesek beolvasasa nehezsegi szint szerint*/
+//char *load_a_question(void)
+//{
+//    FILE *fp;
+//    fp = fopen("../read.txt", "r");
+//
+//    int n = 0;
+//    char *tomb;
+//    char *tombuj;
+//    tomb = (char *) malloc(sizeof(char));
+//    do
+//    {
+//        n++;
+//        tomb[n - 1] = fgetc(fp);
+//        tombuj = (char *) malloc((n + 1) * sizeof(char));
+//        for (int i = 0; i < n; i++)
+//        {
+//            tombuj[i] = tomb[i];
+//        }
+//        free(tomb);
+//        tomb = tombuj;
+//    } while (tomb[n - 1] != '\n');
+//
+//    fclose(fp);
+//
+//    tomb[n - 1] = '\0';
+//
+//    return tomb;
+//}
+//
+//QUESTION load_question_by_difficulty(int difficulty, char *raw_text)
+//{
+//    QUESTION loim;
+//
+//    char **struct_array_type[7] = {&(loim.difficulty), &(loim.question), &(loim.A), &(loim.B), &(loim.C), &(loim.D),
+//                                   &(loim.answer)};
+//
+//    char *copy_raw_text = raw_text;
+//    for (int i = 0; i < 7; i++)
+//    {
+//        int n = 0;
+//        do
+//        {
+//            n++;
+//        } while (raw_text[n - 1] != ';' && raw_text[n - 1] != '\0');
+//
+//        *struct_array_type[i] = (char *) malloc(n * sizeof(char));
+//        strncpy(*struct_array_type[i], raw_text, n);
+//        (*struct_array_type[i])[n - 1] = '\0';
+//
+//        raw_text += n;
+//    }
+//
+//    free(copy_raw_text);
+//
+//    return loim;
+//}

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "functions.h"
 #include "scoreboard.h"
 #include "econio.h"
 #include "draw.h"

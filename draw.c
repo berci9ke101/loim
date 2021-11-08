@@ -1,7 +1,71 @@
 #include "draw.h"
 #include "econio.h"
-#include <stdio.h>
+#include "functions.h"
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+/*szazalek ertek atvaltasa blokkokba*/
+char *percent_block(int number)
+{
+    switch (number)
+    {
+        case 0:
+            return "";
+        case 1:
+            return "▒";
+        case 2:
+            return "▒▒";
+        case 3:
+            return "▒▒▒";
+        case 4:
+            return "▒▒▒▒";
+        case 5:
+            return "▒▒▒▒▒";
+        case 6:
+            return "▒▒▒▒▒▒";
+        case 7:
+            return "▒▒▒▒▒▒▒";
+        case 8:
+            return "▒▒▒▒▒▒▒▒";
+        case 9:
+            return "▒▒▒▒▒▒▒▒▒";
+        default:
+            return NULL;
+    }
+}
+
+/*kozonseg velemenye*/
+void draw_audience(char *answer)
+{
+    int nums[4] = {rand() % 10, rand() % 10, rand() % 10, rand() % 10}; //random szamok generalasa
+
+    bubble_sort(4, nums); //szamok rendezese novekvo sorrendbe
+
+    econio_gotoxy(2, 9);
+    printf("K ö z ö n s é g");
+
+    econio_gotoxy(2, 11);
+    printf("A");
+    econio_gotoxy(2, 12);
+    printf("B");
+    econio_gotoxy(2, 13);
+    printf("C");
+    econio_gotoxy(2, 14);
+    printf("D");
+
+    if (strcmp(answer, "A") == 0)
+    {
+        econio_gotoxy(4, 11);
+        printf("%s%d", percent_block(nums[3]), nums[3]*10);
+        econio_gotoxy(4, 12);
+        printf("%s%d", percent_block(nums[2]), nums[2]*10);
+        econio_gotoxy(4, 13);
+        printf("%s%d", percent_block(nums[1]), nums[1]*10);
+        econio_gotoxy(4, 14);
+        printf("%s%d", percent_block(nums[0]), nums[0]*10);
+    }
+}
 
 /*nyilak kitorlese*/
 void del_arrows(void)

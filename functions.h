@@ -1,6 +1,7 @@
 #ifndef NAGYHF_FUNCTIONS_H
 #define NAGYHF_FUNCTIONS_H
 
+void bubble_sort(int size, int *array);
 void hidecursor(void);
 int count_lines(char *file_name);
 void console_init(void);

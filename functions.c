@@ -4,6 +4,25 @@
 #include "functions.h"
 #include "draw.h"
 
+/*bubble sort*/
+void bubble_sort(int size, int *array)
+{
+    int i, j, temp;
+    for (i = 0; i < (size - 1); i++)
+    {
+        for (j = 0; j < (size - 1 - i); j++)
+        {
+            if (array[j] > array[j + 1])
+            {
+                temp = array[j+1];
+                array[j+1] = array[j];
+                array[j] = temp;
+            }
+
+        }
+    }
+}
+
 /*kurzor elrejtese*/
 /*forras: https://stackoverflow.com/a/30126700*/
 void hidecursor(void)
@@ -95,13 +114,7 @@ int count_lines(char *file_name)
 void pressF(void)
 {
     //F down
-    keybd_event(0x46,0x45,KEYEVENTF_EXTENDEDKEY|0,0);
+    keybd_event(0x46, 0x45, KEYEVENTF_EXTENDEDKEY | 0, 0);
     //F up
-    keybd_event(0x46,0x45,KEYEVENTF_EXTENDEDKEY|KEYEVENTF_KEYUP,0);
+    keybd_event(0x46, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
 }
-
-/*tisztogato fuggveny*/
-/*void clean_master_pro_900(void **p)
-{
-
-}*/
