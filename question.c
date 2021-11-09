@@ -30,29 +30,29 @@ char *load_a_random_question(void)
         }
     }
 
-    int n = 0;
-    char *tomb;
-    char *tombuj;
-    tomb = (char *) malloc(sizeof(char));
+    int index = 0;
+    char *string;
+    char *newstring;
+    string = (char *) malloc(sizeof(char));
     do
     {
-        n++;
-        tomb[n - 1] = fgetc(fp);
-        tombuj = (char *) malloc((n + 1) * sizeof(char));
-        for (int i = 0; i < n; i++)
+        index++;
+        string[index - 1] = fgetc(fp);
+        newstring = (char *) malloc((index + 1) * sizeof(char));
+        for (int i = 0; i < index; i++)
         {
-            tombuj[i] = tomb[i];
+            newstring[i] = string[i];
         }
-        free(tomb);
-        tomb = tombuj;
-    } while (tomb[n - 1] != '\n' && tomb[n - 1] != EOF);
+        free(string);
+        string = newstring;
+    } while (string[index - 1] != '\n' && string[index - 1] != EOF);
 
-    tomb[n - 1] = '\0';
+    string[index - 1] = '\0';
 
 
     fclose(fp);
 
-    return tomb;
+    return string;
 }
 
 /*lefoglalt kerdes felszabaditasa*/
@@ -160,15 +160,42 @@ void print_question(QUESTION loim)
     econio_gotoxy(52, 13);
     printf("D: %s", loim.D);
 
+//    /*QUESTION*/
+//    econio_gotoxy(1, 19);
+//    printf("                                                                                                                     ");
+//    econio_gotoxy(1, 19);
+//    printf("%s", loim.question);
+
     /*QUESTION*/
-    econio_gotoxy(1, 19);
-    printf("                                                                                                                     ");
-    econio_gotoxy(1, 19);
-    printf("%s", loim.question);
+    for (int i = 0; i < 8; i++)
+    {
+        econio_gotoxy(16, (4 + i));
+        for (int k = 0; k < 70; k++)
+        {
+            printf(" ");
+        }
+    }
+
+//    char *p = cut(loim.question);
+//    int t = 0;
+//    int next_line = 0;
+//    while (*p + t != '\0')
+//    {
+//        printf("%c", p[t]);
+//        t++;
+//    }
+
+    char *p = loim.question;
+    for (int i = 0; i < ((strlen(loim.question) / 69) + 1); i++)
+    {
+        econio_gotoxy(16, (4 + i));
+        printf("%-.*s", 69, p);
+        p += 69;
+    }
 }
 
 void print_cheat(QUESTION loim)
 {
-    econio_gotoxy(4,4);
+    econio_gotoxy(4, 4);
     printf("%s", loim.answer);
 }
