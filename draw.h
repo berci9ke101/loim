@@ -1,7 +1,11 @@
 #ifndef NAGYHF_DRAW_H
 #define NAGYHF_DRAW_H
+#include "question.h"
 
 char *percent_block(int number);
+void del_audience(void);
+void half(QUESTION loim);
+void del_question(char *ABCD);
 void draw_audience(char *answer);
 void del_arrows(void);
 int vert_align(int window_width, int rectangle_width);

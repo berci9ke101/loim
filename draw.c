@@ -1,6 +1,7 @@
 #include "draw.h"
 #include "econio.h"
 #include "functions.h"
+#include "question.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,6 +34,16 @@ char *percent_block(int number)
             return "▒▒▒▒▒▒▒▒▒▒";
         default:
             return "";
+    }
+}
+
+/*kozonseg velemenye eltuntetese*/
+void del_audience(void)
+{
+    for (int i = 0; i < 6; i++)
+    {
+        econio_gotoxy(2, 9 + i);
+        printf("               ");
     }
 }
 
@@ -98,6 +109,68 @@ void draw_audience(char *answer)
         printf("%s%d", percent_block(nums[0]), nums[0]);
         econio_gotoxy(4, 14);
         printf("%s%d", percent_block(nums[3]), nums[3]);
+    }
+}
+
+/*kerdesek megfelezese*/
+void half(QUESTION loim)
+{
+    if (strcmp(loim.answer, "A") == 0)
+    {
+        del_question("B");
+        del_question("D");
+    }
+    else if (strcmp(loim.answer, "B") == 0)
+    {
+        del_question("A");
+        del_question("D");
+    }
+    else if (strcmp(loim.answer, "C") == 0)
+    {
+        del_question("B");
+        del_question("D");
+    }
+    else if (strcmp(loim.answer, "D") == 0)
+    {
+        del_question("A");
+        del_question("C");
+    }
+}
+
+/*egyik kerdes eltuntetese*/
+void del_question(char *ABCD)
+{
+    if (strcmp(ABCD, "A") == 0)
+    {
+        econio_gotoxy(17, 12);
+        for (int i = 1; i <= 35; i++)
+        {
+            printf(" ");
+        }
+    }
+    else if (strcmp(ABCD, "B") == 0)
+    {
+        econio_gotoxy(17, 13);
+        for (int i = 1; i <= 35; i++)
+        {
+            printf(" ");
+        }
+    }
+    else if (strcmp(ABCD, "C") == 0)
+    {
+        econio_gotoxy(52, 12);
+        for (int i = 1; i <= 35; i++)
+        {
+            printf(" ");
+        }
+    }
+    else if (strcmp(ABCD, "D") == 0)
+    {
+        econio_gotoxy(52, 13);
+        for (int i = 1; i <= 35; i++)
+        {
+            printf(" ");
+        }
     }
 }
 

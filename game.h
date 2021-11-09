@@ -4,5 +4,6 @@
 void game_init(void);
 void arrow_and_reward(int questionnum, int *amount, int *fix_amount);
 int diffselect(int difficulty);
+int game(int difficulty);
 
 #endif //NAGYHF_GAME_H

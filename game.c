@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "scoreboard.h"
 #include "functions.h"
+#include "timer.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -193,12 +194,202 @@ int diffselect(int difficulty)
     switch (difficulty)
     {
         case 0:
-            return (rand()%5+1);
+            return (rand() % 5 + 1);
         case 1:
-            return (rand()%5+6);
+            return (rand() % 5 + 6);
         case 2:
-            return (rand()%5+11);
+            return (rand() % 5 + 11);
         default:
-            return (rand()%5+6);
+            return (rand() % 5 + 6);
     }
+}
+
+/*nev megadasa majd a scoreboardba iras*/
+void give_name(int stop, int hour, int minute, int second, int amount, int fix_amount)
+{
+    /*nev bekerese*/
+    econio_clrscr();
+    econio_gotoxy(vert_align(119, 5), hor_align(25, 1) - 1);
+    printf("N É V");
+
+    draw_rect_char_UTF8(vert_align(119, 23), hor_align(25, 5), 23, 5, "═", "║", "╔", "╗", "╚", "╝");
+
+    econio_gotoxy(50, 13);
+    char name[20];
+    scanf("%s", &name);
+
+    if (!stop)
+    {
+        /*fix_amount*/
+        ;
+    }
+    else
+    {
+        /*amount*/
+        ;
+    }
+}
+
+/*gameplay*/
+int game(int difficulty)
+{
+    /*GAME*/
+
+    /*ORA INICIALIZALASA*/
+    int hour = 0;
+    int minute = 0;
+    int second = 0;
+    time_t prev_time = time(0);
+
+    /*KERDES VALTOZO, SEGITSEGEK ES A NYERT OSSZEG "NULLAZASA"*/
+    int questionnum = 1;
+    int prev_questionnum = 0;
+    bool stop = false;
+    int amount = 0;
+    int fix_amount = 0;
+    bool used_audience = false;
+    bool used_half = false;
+    QUESTION loim;
+
+    /*MAGA A JATEK*/
+    game_init(); //felhasznaloi felulet kirajzolasa es a jatek inicializalasa
+
+    while (questionnum != 16)
+    {
+        econio_flush(); //folyekonyabb kirajzolas
+        /*TIMER*/
+        print_time(hour, minute, second); //ido kiiratasa
+        prev_time = timer(prev_time, &hour, &minute, &second); //maga a timer fuggvenye
+
+        /*oldalso nyeremeny tablazat frissitese*/
+        econio_sleep(0.001); //hogy ne villodzon a kirajzolt nyilacska
+        arrow_and_reward(questionnum, &amount, &fix_amount); //nyilacska kirajzolasa a jelnlegi kerdes alapjan
+
+        /*kerdes es valaszok betoltese, kiirasa*/
+        if (questionnum != prev_questionnum)
+        {
+            loim = load_question_by_difficulty(diffselect(difficulty)); //random kerdes betoltese nehezseg alapjan
+
+            /*kerdes es valaszok kirajzolasa*/
+            print_question(loim);
+
+#ifdef DEBUG
+            print_cheat(loim);
+#endif
+            del_audience();
+            free_QUESTION(loim);
+
+            prev_questionnum = questionnum;
+        }
+
+
+        /*vezerles*/
+        int key; //lenyomott billentyű változója
+
+        if (econio_kbhit())
+        {
+            key = econio_getch(); //lenyomott gomb bekérése, ha tortent billentyulenyomas
+        }
+
+        /*A valasztasa*/
+        if (key == 97)
+        {
+            if (strcmp(loim.answer, "A") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+            /*B valasztasa*/
+        else if (key == 98)
+        {
+            if (strcmp(loim.answer, "B") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+            /*C valasztasa*/
+        else if (key == 99)
+        {
+            if (strcmp(loim.answer, "C") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+            /*D valasztasa*/
+        else if (key == 100)
+        {
+            if (strcmp(loim.answer, "D") == 0)
+            {
+                questionnum++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+            /*K valasztasa*/
+        else if (key == 107)
+        {
+            if (!used_audience)
+            {
+                draw_audience(loim.answer);
+                used_audience = true;
+                econio_gotoxy(3, 22);
+                for (int i = 1; i <= 22; i++)
+                {
+                    printf(" ");
+                }
+            }
+        }
+
+            /*F valasztasa*/
+        else if (key == 102)
+        {
+            if (!used_half)
+            {
+                half(loim);
+                used_half = true;
+                econio_gotoxy(3, 21);
+                for (int i = 1; i <= 22; i++)
+                {
+                    printf(" ");
+                }
+            }
+        }
+
+            /*kilepes*/
+        else if (key == KEY_ESCAPE)
+        {
+            stop = true;
+            break;
+        }
+
+        key = KEY_UNKNOWNKEY; //ha nincs input, akkor ismeretlen billentyűre állítás
+    }
+
+    /*nev megadasa es scoreboardba iras*/
+
+    give_name(stop, hour, minute, second, amount, fix_amount);
+
+    //    econio_gotoxy(0, 0);
+//    printf("%02d:%02d:%02d", hour, minute, second);
+//    econio_sleep(1);
+//    exit(0);
+//    system("NAGYHF.exe");
 }

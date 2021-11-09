@@ -1,42 +1,10 @@
 #include "question.h"
 #include "econio.h"
 #include "functions.h"
+#include "draw.h"
 #include <stdio.h>
 #include <windows.h>
 #include <string.h>
-
-///*kerdes string feldarabolasa 70-es ,ujsorral elvalasztott, karakterblokkokba*/
-//char *cut_up_string(char *string)
-//{
-//    int size = strlen(string);
-//    int loc = 0;
-//    int iter = ((size / 70) + 1);
-//    for (int i = 0; i < size; i++)
-//    {
-//        for (int k = 1; k <= iter; k++)
-//        {
-//            while (i != (70 * k))
-//            {
-//                if (string[i] == ' ')
-//                {
-//                    string[i] = '\n';
-//                }
-//                else
-//                {
-//                    int j=i;
-//                    while (string[j] != ' ')
-//                    {
-//                        j--;
-//                    }
-//                    i=j;
-//                }
-//
-//            }
-//        }
-//    }
-//    string[size - 1] = '\0';
-//    return string;
-//}
 
 /*veletlenszeru kerdesbetoltese*/
 char *load_a_random_question(void)
@@ -139,31 +107,57 @@ QUESTION load_question_by_difficulty(int difficulty)
     return loim;
 }
 
+/*kerdes felvagdosasa 70es (vagy kisebb) blokkokba es ezek elvalasztasa '\n'- nel*/
+char *cut(char *string)
+{
+    int size = strlen(string);
+    if (size < 69)
+    {
+        return string;
+    }
+    for (int i = 0; string[i] != '\0'; ++i)
+    {
+        if (i % 69 == 0 && i > 0)
+        {
+            if (string[i] == ' ')
+            {
+                string[i] = '\n';
+            }
+            else
+            {
+                int j = i;
+                while (string[j] != ' ')
+                {
+                    --j;
+                }
+                string[j] = '\n';
+            }
+        }
+    }
+    return string;
+}
+
 /*kerdes es a valaszok kirajzolasa*/
 void print_question(QUESTION loim)
 {
     /*A*/
-    econio_gotoxy(16, 12);
-    printf("                                        ");
-    econio_gotoxy(16, 12);
+    del_question("A");
+    econio_gotoxy(17, 12);
     printf("A: %s", loim.A);
 
     /*B*/
-    econio_gotoxy(16, 13);
-    printf("                                        ");
-    econio_gotoxy(16, 13);
+    del_question("B");
+    econio_gotoxy(17, 13);
     printf("B: %s", loim.B);
 
     /*C*/
-    econio_gotoxy(59, 12);
-    printf("                                        ");
-    econio_gotoxy(59, 12);
+    del_question("C");
+    econio_gotoxy(52, 12);
     printf("C: %s", loim.C);
 
     /*D*/
-    econio_gotoxy(59, 13);
-    printf("                                        ");
-    econio_gotoxy(59, 13);
+    del_question("D");
+    econio_gotoxy(52, 13);
     printf("D: %s", loim.D);
 
     /*QUESTION*/

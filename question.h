@@ -16,6 +16,7 @@ typedef struct QUESTION
 char *load_a_random_question(void);
 void free_QUESTION(QUESTION loim);
 QUESTION load_question_by_difficulty(int difficulty);
+char *cut(char *string);
 void print_question(QUESTION loim);
 void print_cheat(QUESTION loim);
 
