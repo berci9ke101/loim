@@ -3,6 +3,7 @@
 #include "econio.h"
 #include "functions.h"
 #include "draw.h"
+#include "debugmalloc.h"
 
 /*bubble sort*/
 void bubble_sort(int size, int *array)
@@ -14,8 +15,8 @@ void bubble_sort(int size, int *array)
         {
             if (array[j] > array[j + 1])
             {
-                temp = array[j+1];
-                array[j+1] = array[j];
+                temp = array[j + 1];
+                array[j + 1] = array[j];
                 array[j] = temp;
             }
 

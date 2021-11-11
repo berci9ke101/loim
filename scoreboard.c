@@ -5,6 +5,7 @@
 #include "scoreboard.h"
 #include "econio.h"
 #include "draw.h"
+#include "debugmalloc.h"
 
 /*fajl kiiratasa a konzolba*/
 void scoreboard_print_to_console(void)

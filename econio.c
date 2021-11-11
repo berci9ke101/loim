@@ -1,5 +1,5 @@
 #include "econio.h"
-
+#include "debugmalloc.h"
 
 #if defined(_WIN32) || defined(_WIN64)
 

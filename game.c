@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "debugmalloc.h"
 
 /*aktualis kerdes jelzese, illetve a nyeremeny megadasa*/
 void arrow_and_reward(int questionnum, int *amount, int *fix_amount)
@@ -249,6 +250,7 @@ int game(int difficulty)
     int fix_amount = 0;
     bool used_audience = false;
     bool used_half = false;
+    char **questions = load_questions();
     QUESTION loim;
 
     /*MAGA A JATEK*/
@@ -268,7 +270,8 @@ int game(int difficulty)
         /*kerdes es valaszok betoltese, kiirasa*/
         if (questionnum != prev_questionnum)
         {
-            loim = load_question_by_difficulty(diffselect(difficulty)); //random kerdes betoltese nehezseg alapjan
+            loim = load_question_by_difficulty(diffselect(difficulty),
+                                               questions); //random kerdes betoltese nehezseg alapjan
 
             /*kerdes es valaszok kirajzolasa*/
             print_question(loim);
@@ -277,7 +280,6 @@ int game(int difficulty)
             print_cheat(loim);
 #endif
             del_audience();
-            free_QUESTION(loim);
 
             prev_questionnum = questionnum;
         }
@@ -302,6 +304,7 @@ int game(int difficulty)
             {
                 break;
             }
+            free_QUESTION(loim);
         }
 
             /*B valasztasa*/
@@ -315,6 +318,7 @@ int game(int difficulty)
             {
                 break;
             }
+            free_QUESTION(loim);
         }
 
             /*C valasztasa*/
@@ -328,6 +332,7 @@ int game(int difficulty)
             {
                 break;
             }
+            free_QUESTION(loim);
         }
 
             /*D valasztasa*/
@@ -341,6 +346,7 @@ int game(int difficulty)
             {
                 break;
             }
+            free_QUESTION(loim);
         }
 
             /*K valasztasa*/
@@ -385,7 +391,9 @@ int game(int difficulty)
 
     /*nev megadasa es scoreboardba iras*/
 
+    free_QUESTION(loim);
     give_name(stop, hour, minute, second, amount, fix_amount);
+    freeup_questions_array(questions);
 
     //    econio_gotoxy(0, 0);
 //    printf("%02d:%02d:%02d", hour, minute, second);

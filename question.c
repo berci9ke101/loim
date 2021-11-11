@@ -5,54 +5,62 @@
 #include <stdio.h>
 #include <windows.h>
 #include <string.h>
+#include "debugmalloc.h"
 
-/*veletlenszeru kerdesbetoltese*/
-char *load_a_random_question(void)
+#define FILENAME "../loim.csv"
+
+/*veletlenszeru kerdes betoltese*/
+char **load_questions(void)
 {
     /*jelenlegi sor sorszama es a fajl max sorszamanak megadasa*/
     int linenum = 0;
-    int maxlinecount = count_lines("../loim.csv");
-
-    /*veletlenszeru sor sorszama*/
-    int randomline = (rand() % (maxlinecount + 1) + 1);
+    int maxlinecount = count_lines(FILENAME);
 
     /*fajl megnyitasa*/
     FILE *fp;
-    fp = fopen("../loim.csv", "r");
+    fp = fopen(FILENAME, "r");
 
-    /*mozgas a fajlban*/
-    while (linenum != randomline)
-    {
-        char c = fgetc(fp);
-        if (c == '\n')
-        {
-            linenum++;
-        }
-    }
+    char **questions = (char **) malloc((maxlinecount - 1) * sizeof(char *));
 
-    int index = 0;
-    char *string;
-    char *newstring;
-    string = (char *) malloc(sizeof(char));
     do
     {
-        index++;
-        string[index - 1] = fgetc(fp);
-        newstring = (char *) malloc((index + 1) * sizeof(char));
-        for (int i = 0; i < index; i++)
+        int index = 0;
+        char *string;
+        char *newstring;
+        string = (char *) malloc(sizeof(char));
+        do
         {
-            newstring[i] = string[i];
-        }
-        free(string);
-        string = newstring;
-    } while (string[index - 1] != '\n' && string[index - 1] != EOF);
+            index++;
+            string[index - 1] = fgetc(fp);
+            newstring = (char *) malloc((index + 1) * sizeof(char));
+            for (int i = 0; i < index; i++)
+            {
+                newstring[i] = string[i];
+            }
+            free(string);
+            string = newstring;
+        } while (string[index - 1] != '\n');
 
-    string[index - 1] = '\0';
+        string[index - 1] = '\0';
 
+        questions[linenum] = string;
+
+        linenum++;
+    } while (linenum != (maxlinecount - 1));
 
     fclose(fp);
 
-    return string;
+    return questions;
+
+}
+
+/*random kerdes betoltese */
+char *load_a_random_question(char **questions)
+{
+    int maxline = count_lines(FILENAME);
+    int randomnum = rand() % (maxline + 1);
+
+    return questions[randomnum];
 }
 
 /*lefoglalt kerdes felszabaditasa*/
@@ -67,8 +75,19 @@ void free_QUESTION(QUESTION loim)
     free(loim.answer);
 }
 
+void freeup_questions_array(char **questions)
+{
+    int max =(count_lines(FILENAME) - 1);
+    for (int i = 0; i < max; i++)
+    {
+        free(questions[i]);
+    }
+
+    free(questions);
+}
+
 /*kerdes betoltese nehezseg szerint*/
-QUESTION load_question_by_difficulty(int difficulty)
+QUESTION load_question_by_difficulty(int difficulty, char **questions)
 {
     QUESTION loim = {"0", "0", "0", "0", "0", "0", "0"};
 
@@ -80,8 +99,7 @@ QUESTION load_question_by_difficulty(int difficulty)
 
     while (strcmp(str_difficulty, loim.difficulty) != 0)
     {
-        char *raw_text = load_a_random_question();
-        char *copy_raw_text = raw_text;
+        char *raw_text = load_a_random_question(questions);
         for (int i = 0; i < 7; i++)
         {
             int n = 0;
@@ -97,7 +115,6 @@ QUESTION load_question_by_difficulty(int difficulty)
             raw_text += n;
         }
 
-        free(copy_raw_text);
         if (strcmp(str_difficulty, loim.difficulty) != 0)
         {
             free_QUESTION(loim);
@@ -110,8 +127,8 @@ QUESTION load_question_by_difficulty(int difficulty)
 /*kerdes felvagdosasa 70es (vagy kisebb) blokkokba es ezek elvalasztasa '\n'- nel*/
 char *cut(char *string)
 {
-    int size = strlen(string);
-    if (size < 69)
+    int length = strlen(string);
+    if (length < 69)
     {
         return string;
     }
@@ -142,29 +159,31 @@ void print_question(QUESTION loim)
 {
     /*A*/
     del_question("A");
+
     econio_gotoxy(17, 12);
     printf("A: %s", loim.A);
 
+
     /*B*/
     del_question("B");
+
     econio_gotoxy(17, 13);
     printf("B: %s", loim.B);
 
+
     /*C*/
     del_question("C");
+
     econio_gotoxy(52, 12);
     printf("C: %s", loim.C);
 
+
     /*D*/
     del_question("D");
+
     econio_gotoxy(52, 13);
     printf("D: %s", loim.D);
 
-//    /*QUESTION*/
-//    econio_gotoxy(1, 19);
-//    printf("                                                                                                                     ");
-//    econio_gotoxy(1, 19);
-//    printf("%s", loim.question);
 
     /*QUESTION*/
     for (int i = 0; i < 8; i++)
@@ -176,26 +195,44 @@ void print_question(QUESTION loim)
         }
     }
 
-//    char *p = cut(loim.question);
-//    int t = 0;
-//    int next_line = 0;
-//    while (*p + t != '\0')
-//    {
-//        printf("%c", p[t]);
-//        t++;
-//    }
-
-    char *p = loim.question;
-    for (int i = 0; i < ((strlen(loim.question) / 69) + 1); i++)
+    econio_gotoxy(16, 4);
+    int index = 0;
+    bool used = false;
+    char *string = cut(loim.question);
+    int shift_line = 1;
+    do
     {
-        econio_gotoxy(16, (4 + i));
-        printf("%-.*s", 69, p);
-        p += 69;
-    }
+        if (string[index] == '\n')
+        {
+            econio_gotoxy(16, (4 + shift_line));
+            index++;
+            printf("%c", string[index]);
+            shift_line++;
+            used = true;
+        }
+        else
+        {
+            if (!used)
+            {
+                printf("%c", string[index]);
+            }
+            used = false;
+            index++;
+        }
+
+    } while (string[index] != '\0');
 }
 
 void print_cheat(QUESTION loim)
 {
+    /*3x3as mezo kitisztitasa*/
+    for (int i = 3; i < 6; i++)
+    {
+        econio_gotoxy(3, i);
+        printf("   ");
+    }
+
+    /*helyes megfejtes kiirasa*/
     econio_gotoxy(4, 4);
     printf("%s", loim.answer);
 }

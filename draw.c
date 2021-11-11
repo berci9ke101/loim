@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "debugmalloc.h"
 
 /*szazalek ertek atvaltasa blokkokba*/
 char *percent_block(int number)

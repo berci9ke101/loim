@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "functions.h"
 #include <stdio.h>
+#include "debugmalloc.h"
 
 void difficulty_state_switcher(int state)
 {

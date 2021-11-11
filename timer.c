@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "econio.h"
 #include <time.h>
+#include "debugmalloc.h"
 
 time_t timer(time_t prev_time, int *hour, int *minute, int *second)
 {

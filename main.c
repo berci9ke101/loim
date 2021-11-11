@@ -5,12 +5,12 @@
 #include "game.h"
 #include "timer.h"
 #include <time.h>
-#include "windows.h"
+#include "debugmalloc.h"
 
 int main()
 {
     /*KEZDOERTEKEK BELLITASA*/
-    srand(time(0)); //kozonseg segitseg eloszlasahoz hasznalt randomszamgeneralas
+    srand(time(0)); //kozonseg segitseg eloszlasahoz hasznalt randomszamgeneralas es a random kerdes kivalasztasahoz hasznalt random szam
     int difficulty = 0;
     int global_state = 0; //menuvaltozo inicializalasa
 

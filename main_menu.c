@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "timer.h"
+#include "debugmalloc.h"
 
 /*menupont valto fuggveny*/
 void main_menu_state_switcher(int state)
