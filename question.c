@@ -22,17 +22,42 @@ char **load_questions(void)
 
     char **questions = (char **) malloc((maxlinecount - 1) * sizeof(char *));
 
+    /*hibakezeles*/
+    if (!questions)
+    {
+        perror("Nem sikerült memoriát foglalni a kérdéseknek!");
+        exit(-99);
+    }
+
     do
     {
         int index = 0;
         char *string;
         char *newstring;
         string = (char *) malloc(sizeof(char));
+
+        /*hibakezeles*/
+        if (!string)
+        {
+            free(questions);
+            perror("Nem sikerült memoriát foglalni az egyik kérdésnek!");
+            exit(-99);
+        }
         do
         {
             index++;
             string[index - 1] = fgetc(fp);
             newstring = (char *) malloc((index + 1) * sizeof(char));
+
+            /*hibakezeles*/
+            if (!newstring)
+            {
+                free(questions);
+                free(string);
+                perror("Nem sikerült memoriát foglalni a kérdés egyik mezejének!");
+                exit(-99);
+            }
+
             for (int i = 0; i < index; i++)
             {
                 newstring[i] = string[i];
@@ -77,7 +102,7 @@ void free_QUESTION(QUESTION loim)
 
 void freeup_questions_array(char **questions)
 {
-    int max =(count_lines(FILENAME) - 1);
+    int max = (count_lines(FILENAME) - 1);
     for (int i = 0; i < max; i++)
     {
         free(questions[i]);
@@ -109,6 +134,19 @@ QUESTION load_question_by_difficulty(int difficulty, char **questions)
             } while (raw_text[n - 1] != ';' && raw_text[n - 1] != '\0');
 
             *struct_array_type[i] = (char *) malloc(n * sizeof(char));
+
+            /*hibakezeles*/
+            if (!struct_array_type[i])
+            {
+                for (int k = 0; k <= i; k++)
+                {
+                    free(struct_array_type[i]);
+
+                }
+                freeup_questions_array(questions);
+                perror("Nem sikerült memoriát foglalni a kérdés egyik mezejének!");
+                exit(-99);
+            }
             strncpy(*struct_array_type[i], raw_text, n);
             (*struct_array_type[i])[n - 1] = '\0';
 

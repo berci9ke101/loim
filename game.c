@@ -391,9 +391,12 @@ int game(int difficulty)
 
     /*nev megadasa es scoreboardba iras*/
 
-    free_QUESTION(loim);
-    give_name(stop, hour, minute, second, amount, fix_amount);
+    if (questionnum <= 15)
+    {
+        free_QUESTION(loim);
+    }
     freeup_questions_array(questions);
+    give_name(stop, hour, minute, second, amount, fix_amount);
 
     //    econio_gotoxy(0, 0);
 //    printf("%02d:%02d:%02d", hour, minute, second);
