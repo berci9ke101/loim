@@ -58,7 +58,7 @@ void scoreboard_print_to_console(void)
     }
     else
     {
-        perror("Scoreboard file error."); //hiba eseten kilepes adott hibakoddal
+        perror("Dicsőségtábla fájl hiányzik."); //hiba eseten kilepes adott hibakoddal
         exit(-1);
     }
 }

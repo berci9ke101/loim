@@ -97,15 +97,23 @@ int count_lines(char *file_name)
     int max_line_count = 1;
 
     //karakter beolvasas a fajl vege karakterig
-    while (c != EOF)
+    if (file)
     {
-        c = getc(file);
-        if (c == '\n')
+        while (c != EOF)
         {
-            max_line_count++;
+            c = getc(file);
+            if (c == '\n')
+            {
+                max_line_count++;
+            }
         }
+        fclose(file);
     }
-    fclose(file);
+    else
+    {
+        perror("Sorok megszámlálása sikertlen."); //hiba eseten kilepes adott hibakoddal
+        exit(-2);
+    }
 
     //visszateres a sorok szamaval
     return max_line_count;
@@ -181,9 +189,12 @@ char *split_up_num(int number)
         helpnum = (number % 1000);
         number /= 1000;
 
-        if (number != 0){
+        if (number != 0)
+        {
             sprintf(help, " %03d", helpnum);
-        } else {
+        }
+        else
+        {
             sprintf(help, "%d", helpnum);
         }
 
@@ -195,4 +206,12 @@ char *split_up_num(int number)
 
     reverse_string(returnstring);
     return returnstring;
+}
+
+/*help function*/
+void help_screen(int x, int y)
+{
+    draw_rect_char_UTF8((vert_align(119, 11) - 59) + x, (hor_align(25, 11) - 12) + y, 119, 25, "═", "║", "╔", "╗", "╚",
+                        "╝");
+    econio_gotoxy();
 }

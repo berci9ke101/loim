@@ -25,52 +25,60 @@ char **load_questions(void)
     if (!questions)
     {
         perror("Nem sikerült memoriát foglalni a kérdéseknek!");
-        exit(-99);
+        exit(-3);
     }
 
-    do
+    if (fp)
     {
-        int index = 0;
-        char *string;
-        char *newstring;
-        string = (char *) malloc(sizeof(char));
-
-        /*hibakezeles*/
-        if (!string)
-        {
-            free(questions);
-            perror("Nem sikerült memoriát foglalni az egyik kérdésnek!");
-            exit(-99);
-        }
         do
         {
-            index++;
-            string[index - 1] = fgetc(fp);
-            newstring = (char *) malloc((index + 1) * sizeof(char));
+            int index = 0;
+            char *string;
+            char *newstring;
+            string = (char *) malloc(sizeof(char));
 
             /*hibakezeles*/
-            if (!newstring)
+            if (!string)
             {
                 free(questions);
-                free(string);
-                perror("Nem sikerült memoriát foglalni a kérdés egyik mezejének!");
-                exit(-99);
+                perror("Nem sikerült memoriát foglalni az egyik kérdésnek!");
+                exit(-3);
             }
-
-            for (int i = 0; i < index; i++)
+            do
             {
-                newstring[i] = string[i];
-            }
-            free(string);
-            string = newstring;
-        } while (string[index - 1] != '\n');
+                index++;
+                string[index - 1] = fgetc(fp);
+                newstring = (char *) malloc((index + 1) * sizeof(char));
 
-        string[index - 1] = '\0';
+                /*hibakezeles*/
+                if (!newstring)
+                {
+                    free(questions);
+                    free(string);
+                    perror("Nem sikerült memoriát foglalni a kérdés egyik mezejének!");
+                    exit(-3);
+                }
 
-        questions[linenum] = string;
+                for (int i = 0; i < index; i++)
+                {
+                    newstring[i] = string[i];
+                }
+                free(string);
+                string = newstring;
+            } while (string[index - 1] != '\n');
 
-        linenum++;
-    } while (linenum != (maxlinecount - 1));
+            string[index - 1] = '\0';
+
+            questions[linenum] = string;
+
+            linenum++;
+        } while (linenum != (maxlinecount - 1));
+    }
+    else
+    {
+        perror("Kérdések fájl hiányzik."); //hiba eseten kilepes adott hibakoddal
+        exit(-4);
+    }
 
     fclose(fp);
 
@@ -99,6 +107,7 @@ void free_QUESTION(QUESTION loim)
     free(loim.answer);
 }
 
+/*kerdesek tomb felszabaditasa*/
 void freeup_questions_array(char **questions)
 {
     int max = (count_lines(FILENAME) - 1);
@@ -144,7 +153,7 @@ QUESTION load_question_by_difficulty(int difficulty, char **questions)
                 }
                 freeup_questions_array(questions);
                 perror("Nem sikerült memoriát foglalni a kérdés egyik mezejének!");
-                exit(-99);
+                exit(-3);
             }
             strncpy(*struct_array_type[i], raw_text, n);
             (*struct_array_type[i])[n - 1] = '\0';
@@ -260,6 +269,7 @@ void print_question(QUESTION loim)
     } while (string[index] != '\0');
 }
 
+/*helyes valasz betujelenek kirajzolasa*/
 void print_cheat(QUESTION loim)
 {
     /*3x3as mezo kitisztitasa*/
