@@ -1,7 +1,6 @@
 #include "draw.h"
 #include "econio.h"
 #include "functions.h"
-#include "question.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>

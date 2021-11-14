@@ -3,7 +3,6 @@
 #include "econio.h"
 #include "functions.h"
 #include "draw.h"
-#include "game.h"
 #include "debugmalloc.h"
 
 /*bubble sort*/

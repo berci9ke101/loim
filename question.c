@@ -3,7 +3,6 @@
 #include "functions.h"
 #include "draw.h"
 #include <stdio.h>
-#include <windows.h>
 #include <string.h>
 #include "debugmalloc.h"
 
