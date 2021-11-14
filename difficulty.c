@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "debugmalloc.h"
 
+/*a menu allasanak a valtoztatasa*/
 void difficulty_state_switcher(int state)
 {
     //felso allas, X kirajzolasa csak az elso opciohoz
@@ -58,6 +59,7 @@ void difficulty_state_switcher(int state)
 
 }
 
+/*a menu gombjaival foglalkozo fuggveny*/
 void difficulty_buttons(int *global_state, int *difficulty)
 {
     int difficulty_state = 0; //legfelso menuallas beallitasa
@@ -121,6 +123,7 @@ void difficulty_buttons(int *global_state, int *difficulty)
     }
 }
 
+/*a menu inicializalasa*/
 void difficulty_init(void)
 {
     //kepernyo "tisztitasa"

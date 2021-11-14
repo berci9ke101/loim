@@ -9,7 +9,7 @@
 
 #define FILENAME "../loim.csv"
 
-/*veletlenszeru kerdes betoltese*/
+/*osszes kerdes betoltese*/
 char **load_questions(void)
 {
     /*jelenlegi sor sorszama es a fajl max sorszamanak megadasa*/

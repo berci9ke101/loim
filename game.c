@@ -1,13 +1,63 @@
 #include "game.h"
 #include "econio.h"
 #include "draw.h"
-#include "scoreboard.h"
-#include "functions.h"
 #include "timer.h"
+#include "functions.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "debugmalloc.h"
+
+/*"nyertel" kepernyo kirajzolasa*/
+void win(int amount)
+{
+    //kepernyo "tisztitasa"
+    econio_clrscr();
+
+#ifdef DEBUG
+    console_debug(119, 25);
+#endif
+
+    //frame
+    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
+
+    //szoveg kiirasa
+    econio_gotoxy(vert_align(119, 56), hor_align(25, 1) - 1);
+    printf("G R A T U L Á L U N K  Ö N  M I L L I O M O S  L E T T !");
+    econio_gotoxy(vert_align(119, 28), hor_align(25, 1) + 1);
+    printf("Nyereménye : ");
+    split_num(amount);
+    printf(" Ft");
+
+    //kis varakozas utan tovabblepes a scoreboardra
+    econio_sleep(5);
+}
+
+/*"vesztettel" kepernyo kirajzolasa*/
+void lose(int fix_amount)
+{
+    //kepernyo "tisztitasa"
+    econio_clrscr();
+
+#ifdef DEBUG
+    console_debug(119, 25);
+#endif
+
+    //frame
+    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
+
+    //szoveg kiirasa
+    econio_gotoxy(vert_align(119, 54), hor_align(25, 1) - 1);
+    printf("S A J N O S,  Ö N  N E M  L E T T  M I L L I O M O S !");
+    econio_gotoxy(vert_align(119, 28), hor_align(25, 1) + 1);
+    printf("Nyereménye : ");
+    split_num(fix_amount);
+    printf(" Ft");
+
+
+    //kis varakozas utan tovabblepes a scoreboardra
+    econio_sleep(5);
+}
 
 /*aktualis kerdes jelzese, illetve a nyeremeny megadasa*/
 void arrow_and_reward(int questionnum, int *amount, int *fix_amount)
@@ -125,7 +175,6 @@ void arrow_and_reward(int questionnum, int *amount, int *fix_amount)
         }
         case 16:
         {
-            //win();
             *amount = 50000000;
             *fix_amount = 50000000;
         }
@@ -206,29 +255,100 @@ int diffselect(int difficulty)
 }
 
 /*nev megadasa majd a scoreboardba iras*/
-void give_name(int stop, int hour, int minute, int second, int amount, int fix_amount)
+char *give_name(bool stop, int hour, int minute, int second, int amount, int fix_amount)
 {
     /*nev bekerese*/
     econio_clrscr();
+
+#ifdef DEBUG
+    console_debug(119, 25);
+#endif
+
+    //frame
+    draw_rect_char_UTF8(0, 0, 119, 25, "═", "║", "╔", "╗", "╚", "╝");
+
+    //szoveg kiirasa
     econio_gotoxy(vert_align(119, 5), hor_align(25, 1) - 1);
     printf("N É V");
 
+    //kis teglalap kirajzolasa
     draw_rect_char_UTF8(vert_align(119, 23), hor_align(25, 5), 23, 5, "═", "║", "╔", "╗", "╚", "╝");
 
+    //kurzor pontos helyre valo mozditasa
     econio_gotoxy(50, 13);
-    char name[20];
-    scanf("%s", &name);
+    econio_rawmode();
+    char c;
+    int max = 0;
+    char string[19 + 1];
+    do
+    {
+        if (econio_kbhit())
+        {
+            c = econio_getch();
+            if (c == '\n')
+            {
+                break;
+            }
+            putchar(c);
+            if ((int) c == 8)
+            {
+                econio_gotoxy(50 + max, 13);
+                if (max != 0)
+                {
+                    printf(" ");
+                }
+                econio_gotoxy(50 + max, 13);
+                if (max > 0)
+                {
+                    max--;
+                }
+            }
+            else
+            {
+                string[max++] = c;
+            }
+        }
+    } while (max != 19);
+    string[max] = '\0';
+    econio_gotoxy(46, 16);
+
+    if (strlen(string) == 0)
+    {
+        char string2[] = {"NÉV NÉLKÜL"};
+        strcpy(string, string2);
+    }
+
+    econio_sleep(4);
+
+    /*kiiras string krealasa*/
+    char *output;
+    char *outamount;
+
+    int size = 0;
+    size += strlen(string); //nev hossza
+    size += 8; //timer erteke fix hh:mm:ss
 
     if (!stop)
     {
         /*fix_amount*/
-        ;
+        size += calc_win_amount_length(fix_amount);
+        output = malloc((size + 3) * sizeof(char)); //lezaro nulla es a ket ';' szama = +3
+        outamount = split_up_num(fix_amount);
     }
     else
     {
         /*amount*/
-        ;
+        size += calc_win_amount_length(amount);
+        output = malloc((size + 3) * sizeof(char)); //lezaro nulla es a ket ';' szama = +3
+        outamount = split_up_num(amount);
     }
+
+    sprintf(output, "%s;%d:%d:%d;%s Ft", string, hour, minute, second, outamount);
+
+    free(outamount);
+    econio_sleep(4);
+
+    return output;
 }
 
 /*gameplay*/
@@ -256,7 +376,7 @@ int game(int difficulty)
     /*MAGA A JATEK*/
     game_init(); //felhasznaloi felulet kirajzolasa es a jatek inicializalasa
 
-    while (questionnum != 16)
+    do
     {
         econio_flush(); //folyekonyabb kirajzolas
         /*TIMER*/
@@ -266,6 +386,11 @@ int game(int difficulty)
         /*oldalso nyeremeny tablazat frissitese*/
         econio_sleep(0.001); //hogy ne villodzon a kirajzolt nyilacska
         arrow_and_reward(questionnum, &amount, &fix_amount); //nyilacska kirajzolasa a jelnlegi kerdes alapjan
+
+        if (questionnum >= 16)
+        {
+            break;
+        }
 
         /*kerdes es valaszok betoltese, kiirasa*/
         if (questionnum != prev_questionnum)
@@ -387,7 +512,7 @@ int game(int difficulty)
         }
 
         key = KEY_UNKNOWNKEY; //ha nincs input, akkor ismeretlen billentyűre állítás
-    }
+    } while (questionnum < 17);
 
     /*nev megadasa es scoreboardba iras*/
 
@@ -396,9 +521,30 @@ int game(int difficulty)
         free_QUESTION(loim);
     }
     freeup_questions_array(questions);
+
+    if (stop)
+    {
+        if (questionnum == 1)
+        {
+            lose(fix_amount);
+        }
+        else
+        {
+            win(amount);
+        }
+    }
+    else if (questionnum == 16)
+    {
+        win(fix_amount);
+    }
+    else
+    {
+        lose(fix_amount);
+    }
+
     give_name(stop, hour, minute, second, amount, fix_amount);
 
-    //    econio_gotoxy(0, 0);
+//    econio_gotoxy(0, 0);
 //    printf("%02d:%02d:%02d", hour, minute, second);
 //    econio_sleep(1);
 //    exit(0);

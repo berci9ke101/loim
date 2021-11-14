@@ -3,6 +3,7 @@
 #include "econio.h"
 #include "functions.h"
 #include "draw.h"
+#include "game.h"
 #include "debugmalloc.h"
 
 /*bubble sort*/
@@ -109,4 +110,90 @@ int count_lines(char *file_name)
 
     //visszateres a sorok szamaval
     return max_line_count;
+}
+
+/*a nyeremeny tagolassal valo stringhssozanak kiszamitasa*/
+int calc_win_amount_length(int win_amount)
+{
+    int size = 0;
+    int num_thous = 0;
+    int num_num = 0;
+    int copy = win_amount;
+
+    /*felosztas megszamolasa*/
+    while (win_amount > 1000)
+    {
+        win_amount /= 1000;
+        num_thous++;
+    }
+
+    /*karakterek megszamolasa*/
+    while (copy > 0)
+    {
+        copy /= 10;
+        num_num++;
+    }
+
+    size = num_thous + num_num + 2; //az osszes ertek osszeadasa es a "Ft" szamolasa a vegen
+
+    return size;
+}
+
+/*szam felosztasa es kiirasa rekurzivan*/
+void split_num(int number)
+{
+    if (number < 1000)
+    {
+        printf("%d", number);
+    }
+    else
+    {
+        split_num(number / 1000);
+        printf(" %03d", number % 1000);
+    }
+}
+
+/*egy sztring megforditasa*/
+void reverse_string(char *string)
+{
+    int size = strlen(string);
+
+    for (int i = 0; i < size / 2; i++)
+    {
+        char temp = string[i];
+        string[i] = string[size - i - 1];
+        string[size - i - 1] = temp;
+    }
+}
+
+/*egy szam tagolasa a jobb olvashatosag jegyeben pl: "2000" helyett "2 000"*/
+char *split_up_num(int number)
+{
+    int size = calc_win_amount_length(number);
+    int helpnum = 0;
+
+    char *returnstring = malloc((size + 1) * sizeof(char));
+    char help[5 + 1];
+
+    returnstring[0] = '\0';
+
+    while (number != 0)
+    {
+        helpnum = (number % 1000);
+        number /= 1000;
+
+        if (number != 0){
+            sprintf(help, " %03d", helpnum);
+        } else {
+            sprintf(help, "%d", helpnum);
+        }
+
+        reverse_string(help);
+
+        strcat(returnstring, help);
+    }
+    returnstring[size] = '\0';
+
+    reverse_string(returnstring);
+    return returnstring;
 }

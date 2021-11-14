@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "functions.h"
 #include "scoreboard.h"
 #include "econio.h"
@@ -108,3 +107,5 @@ void scoreboard_init(void)
     printf("(X) Vissza");
 
 }
+
+/*az osszes bemenet beolvasasa a scoreboardbol*/

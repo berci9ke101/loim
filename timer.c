@@ -4,6 +4,7 @@
 #include <time.h>
 #include "debugmalloc.h"
 
+/*maga a timer*/
 time_t timer(time_t prev_time, int *hour, int *minute, int *second)
 {
     time_t current_time = time(0);
@@ -28,6 +29,7 @@ time_t timer(time_t prev_time, int *hour, int *minute, int *second)
 
 }
 
+/*az ido kiirasa*/
 void print_time(int hour, int minute, int second)
 {
     econio_gotoxy(1, 1);
