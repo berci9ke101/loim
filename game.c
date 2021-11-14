@@ -318,8 +318,6 @@ char *give_name(bool stop, int hour, int minute, int second, int amount, int fix
         strcpy(string, string2);
     }
 
-    econio_sleep(4);
-
     /*kiiras string krealasa*/
     char *output;
     char *outamount;
@@ -343,10 +341,10 @@ char *give_name(bool stop, int hour, int minute, int second, int amount, int fix
         outamount = split_up_num(amount);
     }
 
-    sprintf(output, "%s;%d:%d:%d;%s Ft", string, hour, minute, second, outamount);
+    sprintf(output, "%s;%02d:%02d:%02d;%s Ft", string, hour, minute, second, outamount);
 
     free(outamount);
-    econio_sleep(4);
+    econio_sleep(1);
 
     return output;
 }

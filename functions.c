@@ -176,36 +176,46 @@ void reverse_string(char *string)
 /*egy szam tagolasa a jobb olvashatosag jegyeben pl: "2000" helyett "2 000"*/
 char *split_up_num(int number)
 {
-    int size = calc_win_amount_length(number);
-    int helpnum = 0;
-
-    char *returnstring = malloc((size + 1) * sizeof(char));
-    char help[5 + 1];
-
-    returnstring[0] = '\0';
-
-    while (number != 0)
+    if (number == 0)
     {
-        helpnum = (number % 1000);
-        number /= 1000;
-
-        if (number != 0)
-        {
-            sprintf(help, " %03d", helpnum);
-        }
-        else
-        {
-            sprintf(help, "%d", helpnum);
-        }
-
-        reverse_string(help);
-
-        strcat(returnstring, help);
+        char *returnstring = malloc((1 + 1) * sizeof(char));
+        returnstring[0] = '0';
+        returnstring[1] = '\0';
+        return returnstring;
     }
-    returnstring[size] = '\0';
+    else
+    {
+        int size = calc_win_amount_length(number);
+        int helpnum = 0;
 
-    reverse_string(returnstring);
-    return returnstring;
+        char *returnstring = malloc((size + 1) * sizeof(char));
+        char help[5 + 1];
+
+        returnstring[0] = '\0';
+
+        while (number != 0)
+        {
+            helpnum = (number % 1000);
+            number /= 1000;
+
+            if (number != 0)
+            {
+                sprintf(help, " %03d", helpnum);
+            }
+            else
+            {
+                sprintf(help, "%d", helpnum);
+            }
+
+            reverse_string(help);
+
+            strcat(returnstring, help);
+        }
+        returnstring[size] = '\0';
+
+        reverse_string(returnstring);
+        return returnstring;
+    }
 }
 
 /*help function*/
