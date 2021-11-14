@@ -418,8 +418,14 @@ int game(int difficulty)
             key = econio_getch(); //lenyomott gomb bekérése, ha tortent billentyulenyomas
         }
 
+        /*HELP*/
+        if (key == KEY_TAB)
+        {
+            help_screen(true);
+        }
+
         /*A valasztasa*/
-        if (key == 97)
+        else if (key == 97)
         {
             if (strcmp(loim.answer, "A") == 0)
             {
@@ -543,10 +549,4 @@ int game(int difficulty)
     }
 
     give_name(stop, hour, minute, second, amount, fix_amount);
-
-//    econio_gotoxy(0, 0);
-//    printf("%02d:%02d:%02d", hour, minute, second);
-//    econio_sleep(1);
-//    exit(0);
-//    system("NAGYHF.exe");
 }

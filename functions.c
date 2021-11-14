@@ -209,9 +209,60 @@ char *split_up_num(int number)
 }
 
 /*help function*/
-void help_screen(int x, int y)
+void help_screen(bool isgame)
 {
-    draw_rect_char_UTF8((vert_align(119, 11) - 59) + x, (hor_align(25, 11) - 12) + y, 119, 25, "═", "║", "╔", "╗", "╚",
-                        "╝");
-    econio_gotoxy();
+    int x, y, w, h;
+
+    if (isgame)
+    {
+        x = 88;
+        y = 18;
+        w = 31;
+        h = 7;
+    }
+    else
+    {
+        x = 0;
+        y = 0;
+        w = 31;
+        h = 6;
+    }
+
+    //frame
+    draw_rect_char_UTF8(x, y, w, h, "═", "║", "╔", "╗", "╚", "╝");
+
+    /*help text*/
+    econio_gotoxy(x + 1, y + 1);
+    printf("(TAB)          Segítség ablak");
+
+    econio_gotoxy(x + 1, y + 2);
+    printf("(FEL/LE)     Kurzor mozgatása");
+
+    econio_gotoxy(x + 1, y + 3);
+    printf("(A/B/C/D) Kérdés kiválasztása");
+
+    econio_gotoxy(x + 1, y + 4);
+    printf("(Enter)    Opció kiválasztása");
+
+    //correct frame
+    if (isgame)
+    {
+        econio_gotoxy(x + 1, y + 5);
+        printf("(ESC)                Megállás");
+
+        econio_gotoxy(96, 18);
+        printf("╩═══╩═════════════════╣");
+
+        econio_gotoxy(88, 24);
+        printf("╩");
+    }
+    else
+    {
+        econio_gotoxy(30, 0);
+        printf("╦");
+
+        econio_gotoxy(0, 5);
+        printf("╠");
+    }
+
 }

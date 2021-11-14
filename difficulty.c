@@ -79,7 +79,11 @@ void difficulty_buttons(int *global_state, int *difficulty)
         int key = econio_getch(); //lenyomott gomb bekerese
         econio_flush(); //folyekonyabb kirajzolas
 
-        if (key == KEY_UP) //felfele nyilacska lenyomasa
+        if (key == KEY_TAB) //help
+        {
+            help_screen(false);
+        }
+        else if (key == KEY_UP) //felfele nyilacska lenyomasa
         {
             if (difficulty_state >= -3 && difficulty_state < 0)
             {

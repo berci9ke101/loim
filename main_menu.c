@@ -81,7 +81,11 @@ void main_menu_buttons(int *global_state)
         int key = econio_getch(); //lenyomott gomb bekerese
         econio_flush(); //folyekonyabb kirajzolas
 
-        if (key == KEY_UP) //felfele nyilacska lenyomasa
+        if (key == KEY_TAB) //help
+        {
+            help_screen(false);
+        }
+        else if (key == KEY_UP) //felfele nyilacska lenyomasa
         {
             if (main_menu_state >= -3 && main_menu_state < 0)
             {

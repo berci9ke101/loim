@@ -71,7 +71,11 @@ void scoreboard_buttons(int *global_state)
         int key = econio_getch(); //a megnyomott gomb bekerese
         econio_flush(); //folyekonyabb kirajzolas
 
-        if (key == KEY_ENTER)
+        if (key == KEY_TAB) //help
+        {
+            help_screen(false);
+        }
+        else if (key == KEY_ENTER)
         {
             *global_state = 0; //a globalis menuvaltozo fomenure (0)-ra valo allitasa
             break;
