@@ -113,3 +113,10 @@ void scoreboard_init(void)
 }
 
 /*az osszes bemenet beolvasasa a scoreboardbol*/
+
+
+/*kiiras a scoreboardba*/
+void write_to_scoreboard(char *string)
+{
+    ;
+}

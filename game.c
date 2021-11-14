@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "timer.h"
 #include "functions.h"
+#include "scoreboard.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -546,5 +547,8 @@ int game(int difficulty)
         lose(fix_amount);
     }
 
-    give_name(stop, hour, minute, second, amount, fix_amount);
+    char *scoreboardoutput = give_name(stop, hour, minute, second, amount, fix_amount);
+
+    write_to_scoreboard(scoreboardoutput);
+    free(scoreboardoutput);
 }
