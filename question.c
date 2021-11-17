@@ -24,6 +24,7 @@ char **load_questions(void)
     /*hibakezeles*/
     if (!questions)
     {
+        econio_clrscr();
         perror("Nem sikerült memoriát foglalni a kérdéseknek!");
         exit(-3);
     }
@@ -41,6 +42,7 @@ char **load_questions(void)
             if (!string)
             {
                 free(questions);
+                econio_clrscr();
                 perror("Nem sikerült memoriát foglalni az egyik kérdésnek!");
                 exit(-3);
             }
@@ -55,6 +57,7 @@ char **load_questions(void)
                 {
                     free(questions);
                     free(string);
+                    econio_clrscr();
                     perror("Nem sikerült memoriát foglalni a kérdés egyik mezejének!");
                     exit(-3);
                 }
@@ -76,6 +79,7 @@ char **load_questions(void)
     }
     else
     {
+        econio_clrscr();
         perror("Kérdések fájl hiányzik."); //hiba eseten kilepes adott hibakoddal
         exit(-4);
     }
@@ -152,6 +156,7 @@ QUESTION load_question_by_difficulty(int difficulty, char **questions)
 
                 }
                 freeup_questions_array(questions);
+                econio_clrscr();
                 perror("Nem sikerült memoriát foglalni a kérdés egyik mezejének!");
                 exit(-3);
             }

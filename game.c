@@ -342,7 +342,7 @@ char *give_name(bool stop, int hour, int minute, int second, int amount, int fix
         outamount = split_up_num(amount);
     }
 
-    sprintf(output, "%s;%02d:%02d:%02d;%s Ft", string, hour, minute, second, outamount);
+    sprintf(output, "%s;%02d:%02d:%02d;%s", string, hour, minute, second, outamount);
 
     free(outamount);
     econio_sleep(1);
@@ -423,7 +423,7 @@ int game(int difficulty)
             help_screen(true);
         }
 
-        /*A valasztasa*/
+            /*A valasztasa*/
         else if (key == 97)
         {
             if (strcmp(loim.answer, "A") == 0)

@@ -119,6 +119,7 @@ void main_menu_buttons(int *global_state)
 
             if (main_menu_state == -3) //kilepes opcio
             {
+                econio_clrscr();
                 exit(0); //kilepes a "0" hibakoddal
             }
         }

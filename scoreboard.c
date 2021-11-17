@@ -6,29 +6,40 @@
 #include "draw.h"
 #include "debugmalloc.h"
 
+#define FILENAME "../scoreboard.txt"
+
 /*fajl kiiratasa a konzolba*/
 void scoreboard_print_to_console(void)
 {
-    //beolvasott szoveg maximalis hossza
-    char name[20 + 1];
-    char time[8 + 1];
-    char amount[10 + 1];
-
     //fajl betoltese
     FILE *file;
-    file = fopen("../scoreboard.txt", "r");
+    file = fopen(FILENAME, "r");
     char buffer[255];
 
     //jelenlegi sor, a sorok kozti tavolsag es a max sorszam valtozoi
     int linenum = 1; //a jelenlegi sor sorszama
     int spacer = 0; //a tavolsag 0-rol indul, majd kettesevel novekszik
-    int max_line_count = 8; //8 a dicsosegtabla  bejegyzeseinek szamas
+    int max_line_count;
+    int filecount = count_lines(FILENAME);
+    if (filecount > 8)
+    {
+        max_line_count = 8;
+    }
+    else
+    {
+        max_line_count = filecount;
+    } //max 8 a dicsosegtabla  bejegyzeseinek szamas
 
     //kiiras
     if (file)
     {
         while (linenum <= max_line_count) //osszes sor kiirasa,
         {
+            //beolvasott szoveg maximalis hossza
+            char name[20 + 1];
+            char time[8 + 1];
+            char amount[10 + 1];
+
             fgets(buffer, 255, file);
             sscanf(buffer, "%[^;];%[^;];%[^\n]", name, time, amount);
 
@@ -58,6 +69,7 @@ void scoreboard_print_to_console(void)
     }
     else
     {
+        econio_clrscr();
         perror("Dicsőségtábla fájl hiányzik."); //hiba eseten kilepes adott hibakoddal
         exit(-1);
     }
@@ -118,5 +130,22 @@ void scoreboard_init(void)
 /*kiiras a scoreboardba*/
 void write_to_scoreboard(char *string)
 {
-    ;
+    FILE *file;
+    file = fopen(FILENAME, "a");
+    if (file)
+    {
+        /*file vegere ugras (utolso elotti elotti ("ez a \n karakter") karakter, mert az utolso az az EOF)*/
+        fseek(file, -1, SEEK_END);
+
+        /*string beirasa a fajl vegere*/
+        fprintf(file, "\n%s", string);
+
+        fclose(file);
+    }
+    else
+    {
+        econio_clrscr();
+        perror("Dicsőségtábla fájl hiányzik."); //hiba eseten kilepes adott hibakoddal
+        exit(-1);
+    }
 }

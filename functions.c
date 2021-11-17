@@ -111,6 +111,7 @@ int count_lines(char *file_name)
     }
     else
     {
+        econio_clrscr();
         perror("Sorok megszámlálása sikertlen."); //hiba eseten kilepes adott hibakoddal
         exit(-2);
     }
@@ -141,7 +142,7 @@ int calc_win_amount_length(int win_amount)
         num_num++;
     }
 
-    size = num_thous + num_num + 2; //az osszes ertek osszeadasa es a "Ft" szamolasa a vegen
+    size = num_thous + num_num; //az osszes ertek osszeadasa
 
     return size;
 }
