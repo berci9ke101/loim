@@ -551,4 +551,6 @@ int game(int difficulty)
 
     write_to_scoreboard(scoreboardoutput);
     free(scoreboardoutput);
+
+    read_sort_write();
 }

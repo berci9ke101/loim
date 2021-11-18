@@ -6,7 +6,7 @@
 #include "draw.h"
 #include "debugmalloc.h"
 
-#define FILENAME "../scoreboard.txt"
+#define FILENAME "../scoreboard.loim"
 
 /*fajl kiiratasa a konzolba*/
 void scoreboard_print_to_console(void)
@@ -40,7 +40,11 @@ void scoreboard_print_to_console(void)
             char time[8 + 1];
             char amount[10 + 1];
 
-            fgets(buffer, 255, file);
+            if (fgets(buffer, 255, file) == NULL)
+            {
+                break;
+            }
+
             sscanf(buffer, "%[^;];%[^;];%[^\n]", name, time, amount);
 
             //a kategoriak meretre "apritasa"
@@ -124,8 +128,99 @@ void scoreboard_init(void)
 
 }
 
-/*az osszes bemenet beolvasasa a scoreboardbol*/
+/*az osszes bemenet beolvasasa, rendezese, majd kiirasa a scoreboardba*/
+void read_sort_write(void)
+{
+    FILE *file;
+    file = fopen(FILENAME, "r");
+    int linenum = 0;
+    int maxlinecount = count_lines(FILENAME);
 
+    char **entries = (char **) malloc((maxlinecount - 1) * sizeof(char *));
+
+    /*az osszes sor beolvasasa a scoreboardbol*/
+    if (file)
+    {
+        do
+        {
+            int index = 0;
+            char *string;
+            char *newstring;
+            string = (char *) malloc(sizeof(char));
+
+            /*hibakezeles*/
+            if (!string)
+            {
+                free(entries);
+                econio_clrscr();
+                perror("Nem sikerült memoriát foglalni a dicsőségtáblának!");
+                exit(-5);
+            }
+            do
+            {
+                index++;
+                string[index - 1] = fgetc(file);
+                newstring = (char *) malloc((index + 1) * sizeof(char));
+
+                /*hibakezeles*/
+                if (!newstring)
+                {
+                    free(entries);
+                    free(string);
+                    econio_clrscr();
+                    perror("Nem sikerült memoriát foglalni a dicsőségtábla egyik elemének!");
+                    exit(-3);
+                }
+
+                for (int i = 0; i < index; i++)
+                {
+                    newstring[i] = string[i];
+                }
+                free(string);
+                string = newstring;
+            } while (string[index - 1] != '\n');
+
+            string[index - 1] = '\0';
+
+            entries[linenum] = string;
+
+            linenum++;
+        } while (linenum != (maxlinecount - 1));
+
+        fclose(file);
+    }
+    else
+    {
+        econio_clrscr();
+        perror("Dicsőségtábla fájl hiányzik."); //hiba eseten kilepes adott hibakoddal
+        exit(-1);
+    }
+
+    SCOREBOARD **score_array = (SCOREBOARD **) malloc((maxlinecount - 1) * sizeof(SCOREBOARD *));
+
+    for (int i = 0; i < (maxlinecount - 2); i++)
+    {
+        SCOREBOARD *temp = (SCOREBOARD *) malloc(sizeof(SCOREBOARD));
+        char name[20 + 1];
+        int hour;
+        int minute;
+        int second;
+        char amount[10 + 1];
+
+        sscanf(entries[i], "%[^;];%d:%d:%d;%[^\n]", &name, &hour, &minute, &second, &amount);
+        free(entries[i]);
+
+        strcpy(temp->name, name);
+        temp->hour = hour;
+        temp->minute = minute;
+        temp->second = second;
+        strcpy(temp->winamount, amount);
+
+        score_array[i] = temp;
+    }
+    free(entries);
+
+}
 
 /*kiiras a scoreboardba*/
 void write_to_scoreboard(char *string)
@@ -138,7 +233,7 @@ void write_to_scoreboard(char *string)
         fseek(file, -1, SEEK_END);
 
         /*string beirasa a fajl vegere*/
-        fprintf(file, "\n%s", string);
+        fprintf(file, "%s\n", string);
 
         fclose(file);
     }
