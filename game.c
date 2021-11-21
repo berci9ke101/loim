@@ -247,11 +247,11 @@ int diffselect(int difficulty)
         case 0:
             return (rand() % 5 + 1);
         case 1:
-            return (rand() % 5 + 6);
+            return (rand() % 10 + 1);
         case 2:
-            return (rand() % 5 + 11);
+            return (rand() % 15 + 1);
         default:
-            return (rand() % 5 + 6);
+            return (rand() % 10 + 1);
     }
 }
 
@@ -552,5 +552,5 @@ int game(int difficulty)
     write_to_scoreboard(scoreboardoutput);
     free(scoreboardoutput);
 
-    read_sort_write();
+    //read_sort_write();
 }

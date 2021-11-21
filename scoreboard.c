@@ -134,9 +134,23 @@ void read_sort_write(void)
     FILE *file;
     file = fopen(FILENAME, "r");
     int linenum = 0;
-    int maxlinecount = count_lines(FILENAME);
+    int maxlinecount;
+    int filecount = count_lines(FILENAME);
+    if (filecount > 8)
+    {
+        maxlinecount = 8;
+    }
+    else
+    {
+        maxlinecount = filecount;
+    } //max 8+1 (egy az ujonnan jott) a dicsosegtabla  bejegyzeseinek szama
 
-    char **entries = (char **) malloc((maxlinecount - 1) * sizeof(char *));
+    /*scoreboard tomb letrehozasa, feltoltese dummy SCOREBOARD pointerekkel*/
+    SCOREBOARD *score_array[9];
+    for (int i = 0; i < 9; i++)
+    {
+        score_array[i] = (SCOREBOARD *) malloc(sizeof(SCOREBOARD));
+    }
 
     /*az osszes sor beolvasasa a scoreboardbol*/
     if (file)
@@ -151,7 +165,6 @@ void read_sort_write(void)
             /*hibakezeles*/
             if (!string)
             {
-                free(entries);
                 econio_clrscr();
                 perror("Nem sikerült memoriát foglalni a dicsőségtáblának!");
                 exit(-5);
@@ -165,7 +178,6 @@ void read_sort_write(void)
                 /*hibakezeles*/
                 if (!newstring)
                 {
-                    free(entries);
                     free(string);
                     econio_clrscr();
                     perror("Nem sikerült memoriát foglalni a dicsőségtábla egyik elemének!");
@@ -182,10 +194,13 @@ void read_sort_write(void)
 
             string[index - 1] = '\0';
 
-            entries[linenum] = string;
+            /*score_array tombbe helyezes*/
+            sscanf(string, "%[^;];%d:%d:%d;%[^\n]", score_array[linenum]->name, score_array[linenum]->hour, score_array[linenum]->minute, score_array[linenum]->second, score_array[linenum]->winamount);
+
+            free(string);
 
             linenum++;
-        } while (linenum != (maxlinecount - 1));
+        } while (linenum != maxlinecount);
 
         fclose(file);
     }
@@ -196,30 +211,40 @@ void read_sort_write(void)
         exit(-1);
     }
 
-    SCOREBOARD **score_array = (SCOREBOARD **) malloc((maxlinecount - 1) * sizeof(SCOREBOARD *));
+    /*scoreboard rendezese*/
+    scoreboard_bubble_sort(*score_array);
 
-    for (int i = 0; i < (maxlinecount - 2); i++)
+    /*kiiras a scoreboardba*/
+
+    file = fopen(FILENAME, "w");
+
+    if (file)
     {
-        SCOREBOARD *temp = (SCOREBOARD *) malloc(sizeof(SCOREBOARD));
-        char name[20 + 1];
-        int hour;
-        int minute;
-        int second;
-        char amount[10 + 1];
-
-        sscanf(entries[i], "%[^;];%d:%d:%d;%[^\n]", &name, &hour, &minute, &second, &amount);
-        free(entries[i]);
-
-        strcpy(temp->name, name);
-        temp->hour = hour;
-        temp->minute = minute;
-        temp->second = second;
-        strcpy(temp->winamount, amount);
-
-        score_array[i] = temp;
+        for (int i = 0; i < 9; i++)
+        {
+            fprintf(file, "%s;%d:%d:%d;%s\n", score_array[i]->name, score_array[i]->hour, score_array[i]->minute,
+                    score_array[i]->second, score_array[i]->winamount);
+        }
     }
-    free(entries);
+    else
+    {
+        econio_clrscr();
+        /*teljes score array felszabaditasa*/
+        for (int i = 0; i < 9; i++)
+        {
+            free(score_array[i]);
+        }
+        perror("Dicsőségtábla fájl hiányzik."); //hiba eseten kilepes adott hibakoddal
+        exit(-1);
+    }
+    fclose(file);
 
+
+    /*teljes score array felszabaditasa*/
+    for (int i = 0; i < 9; i++)
+    {
+        free(score_array[i]);
+    }
 }
 
 /*kiiras a scoreboardba*/

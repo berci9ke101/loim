@@ -5,6 +5,28 @@
 #include "draw.h"
 #include "debugmalloc.h"
 
+/*scoreboard bubble sort*/
+void scoreboard_bubble_sort(SCOREBOARD *array)
+{
+    SCOREBOARD temp;
+    int i, j;
+    for (i = 0; i < 10; i++)
+    {
+        for (j = 0; j < (10 - i); j++)
+        {
+            if (((array[j].hour * 3600) + (array[j].minute * 60) + (array[j].second)) > ((array[j + 1].hour * 3600) +
+                                                                                       (array[j + 1].minute * 60) +
+                                                                                       (array[j + 1].second)))
+            {
+                temp = array[j + 1];
+                array[j + 1] = array[j];
+                array[j] = temp;
+            }
+
+        }
+    }
+}
+
 /*bubble sort*/
 void bubble_sort(int size, int *array)
 {

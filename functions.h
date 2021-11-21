@@ -2,7 +2,9 @@
 #define NAGYHF_FUNCTIONS_H
 
 #include <stdbool.h>
+#include "scoreboard.h"
 
+void scoreboard_bubble_sort(SCOREBOARD *array);
 void bubble_sort(int size, int *array);
 void hidecursor(void);
 int count_lines(char *file_name);
