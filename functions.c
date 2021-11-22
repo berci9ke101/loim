@@ -6,17 +6,16 @@
 #include "debugmalloc.h"
 
 /*scoreboard bubble sort*/
-void scoreboard_bubble_sort(SCOREBOARD *array)
+void scoreboard_bubble_sort(SCOREBOARD **array, int maxlinecount)
 {
-    SCOREBOARD temp;
+    SCOREBOARD *temp;
     int i, j;
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < maxlinecount - 1; i++)
     {
-        for (j = 0; j < (10 - i); j++)
+        for (j = 0; j < ((maxlinecount - 1) - i); j++)
         {
-            if (((array[j].hour * 3600) + (array[j].minute * 60) + (array[j].second)) > ((array[j + 1].hour * 3600) +
-                                                                                       (array[j + 1].minute * 60) +
-                                                                                       (array[j + 1].second)))
+            if (((array[j]->hour * 3600) + (array[j]->minute * 60) + (array[j]->second)) >
+                ((array[j + 1]->hour * 3600) + (array[j + 1]->minute * 60) + (array[j + 1]->second)))
             {
                 temp = array[j + 1];
                 array[j + 1] = array[j];

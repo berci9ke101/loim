@@ -133,21 +133,20 @@ void read_sort_write(void)
 {
     FILE *file;
     file = fopen(FILENAME, "r");
-    int linenum = 0;
     int maxlinecount;
     int filecount = count_lines(FILENAME);
-    if (filecount > 8)
+    if (filecount >= 8)
     {
         maxlinecount = 8;
     }
     else
     {
         maxlinecount = filecount;
-    } //max 8+1 (egy az ujonnan jott) a dicsosegtabla  bejegyzeseinek szama
+    } //max 8 a dicsosegtabla  bejegyzeseinek szama
 
     /*scoreboard tomb letrehozasa, feltoltese dummy SCOREBOARD pointerekkel*/
-    SCOREBOARD *score_array[9];
-    for (int i = 0; i < 9; i++)
+    SCOREBOARD *score_array[maxlinecount - 1];
+    for (int i = 0; i < maxlinecount - 1; i++)
     {
         score_array[i] = (SCOREBOARD *) malloc(sizeof(SCOREBOARD));
     }
@@ -155,53 +154,11 @@ void read_sort_write(void)
     /*az osszes sor beolvasasa a scoreboardbol*/
     if (file)
     {
-        do
+        for (int index = 0; index < maxlinecount - 1; index++)
         {
-            int index = 0;
-            char *string;
-            char *newstring;
-            string = (char *) malloc(sizeof(char));
-
-            /*hibakezeles*/
-            if (!string)
-            {
-                econio_clrscr();
-                perror("Nem sikerült memoriát foglalni a dicsőségtáblának!");
-                exit(-5);
-            }
-            do
-            {
-                index++;
-                string[index - 1] = fgetc(file);
-                newstring = (char *) malloc((index + 1) * sizeof(char));
-
-                /*hibakezeles*/
-                if (!newstring)
-                {
-                    free(string);
-                    econio_clrscr();
-                    perror("Nem sikerült memoriát foglalni a dicsőségtábla egyik elemének!");
-                    exit(-3);
-                }
-
-                for (int i = 0; i < index; i++)
-                {
-                    newstring[i] = string[i];
-                }
-                free(string);
-                string = newstring;
-            } while (string[index - 1] != '\n');
-
-            string[index - 1] = '\0';
-
-            /*score_array tombbe helyezes*/
-            sscanf(string, "%[^;];%d:%d:%d;%[^\n]", score_array[linenum]->name, score_array[linenum]->hour, score_array[linenum]->minute, score_array[linenum]->second, score_array[linenum]->winamount);
-
-            free(string);
-
-            linenum++;
-        } while (linenum != maxlinecount);
-
+            fscanf(file, "%[^;];%d:%d:%d;%[^\n]\n", score_array[index]->name, &(score_array[index]->hour),
+                   &(score_array[index]->minute), &(score_array[index]->second), score_array[index]->winamount);
+        }
         fclose(file);
     }
     else
@@ -212,7 +169,7 @@ void read_sort_write(void)
     }
 
     /*scoreboard rendezese*/
-    scoreboard_bubble_sort(*score_array);
+//    scoreboard_bubble_sort(score_array, maxlinecount);
 
     /*kiiras a scoreboardba*/
 
@@ -220,17 +177,18 @@ void read_sort_write(void)
 
     if (file)
     {
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < maxlinecount - 1; i++)
         {
             fprintf(file, "%s;%d:%d:%d;%s\n", score_array[i]->name, score_array[i]->hour, score_array[i]->minute,
                     score_array[i]->second, score_array[i]->winamount);
         }
+        fprintf(file, "KIIRTAM! 9XD");
     }
     else
     {
         econio_clrscr();
         /*teljes score array felszabaditasa*/
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < maxlinecount - 1; i++)
         {
             free(score_array[i]);
         }
@@ -241,7 +199,7 @@ void read_sort_write(void)
 
 
     /*teljes score array felszabaditasa*/
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < maxlinecount - 1; i++)
     {
         free(score_array[i]);
     }
