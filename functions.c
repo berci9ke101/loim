@@ -33,7 +33,7 @@ int prec(SCOREBOARD **a, SCOREBOARD **b)
 {
     if (string_to_int((*a)->winamount) == string_to_int((*b)->winamount))
     {
-        return ((*a)->hour * 3600 + (*a)->minute * 60 + (*a)->second) <
+        return ((*a)->hour * 3600 + (*a)->minute * 60 + (*a)->second) >
                ((*b)->hour * 3600 + (*b)->minute * 60 + (*b)->second) ? 1 : 0;
     }
     return string_to_int((*a)->winamount) < string_to_int((*b)->winamount) ? 1 : 0;
@@ -120,11 +120,13 @@ void console_debug(int width, int height)
 /*konzolablak elnevezese es meretenek megvaltoztatasa*/
 void console_init(void)
 {
+#ifdef _WIN32
     system("mode con:cols=119 lines=25");
-    econio_set_title("LOIM");
     SetConsoleOutputCP(CP_UTF8);
     hidecursor();
+#endif
     econio_rawmode();
+    econio_set_title("LOIM");
 }
 
 /*sorok megszamolasa egy fajlban*/
