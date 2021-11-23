@@ -186,7 +186,7 @@ void read_sort_write(void)
         }
         for (int i = 0; i < printcount; i++)
         {
-            fprintf(file, "%s;%d:%d:%d;%s\n", score_array[i]->name, score_array[i]->hour, score_array[i]->minute,
+            fprintf(file, "%s;%02d:%02d:%02d;%s\n", score_array[i]->name, score_array[i]->hour, score_array[i]->minute,
                     score_array[i]->second, score_array[i]->winamount);
         }
     }

@@ -290,22 +290,13 @@ char *give_name(bool stop, int hour, int minute, int second, int amount, int fix
             {
                 break;
             }
-            putchar(c);
             if ((int) c == 8)
             {
-                econio_gotoxy(50 + max, 13);
-                if (max != 0)
-                {
-                    printf(" ");
-                }
-                econio_gotoxy(50 + max, 13);
-                if (max > 0)
-                {
-                    max--;
-                }
+                /*backspace karakter*/
             }
             else
             {
+                putchar(c);
                 string[max++] = c;
             }
         }
