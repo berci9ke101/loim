@@ -5,25 +5,62 @@
 #include "draw.h"
 #include "debugmalloc.h"
 
-/*scoreboard bubble sort*/
-void scoreboard_bubble_sort(SCOREBOARD **array, int maxlinecount)
-{
-    SCOREBOARD *temp;
-    int i, j;
-    for (i = 0; i < maxlinecount - 1; i++)
-    {
-        for (j = 0; j < ((maxlinecount - 1) - i); j++)
-        {
-            if (((array[j]->hour * 3600) + (array[j]->minute * 60) + (array[j]->second)) >
-                ((array[j + 1]->hour * 3600) + (array[j + 1]->minute * 60) + (array[j + 1]->second)))
-            {
-                temp = array[j + 1];
-                array[j + 1] = array[j];
-                array[j] = temp;
-            }
 
+/*string integerre valtoztatasa*/
+int string_to_int(char *string)
+{
+    int len = strlen(string);
+    char *copy = (char *) malloc((len + 1) * sizeof(char));
+    strcpy(copy, string);
+
+    for (int i = 0; i < len + 1; i++)
+    {
+        if (copy[i] == ' ')
+        {
+            for (int k = i; k < len; k++)
+            {
+                copy[k] = copy[k + 1];
+            }
         }
     }
+    int num = atoi(copy);
+    free(copy);
+    return num;
+}
+
+/*dicsosegtabla precedencia*/
+int prec(SCOREBOARD **a, SCOREBOARD **b)
+{
+    if (((*a)->hour == (*b)->hour) && ((*a)->minute == (*b)->minute) && ((*a)->second == (*b)->second))
+    {
+        return string_to_int((*a)->winamount) > string_to_int((*b)->winamount) ? 1 : 0;
+    }
+    return ((*a)->hour * 3600 + (*a)->minute * 60 + (*a)->second) >
+           ((*b)->hour * 3600 + (*b)->minute * 60 + (*b)->second) ? 1 : 0;
+}
+
+/*scoreboard bubble sort*/
+void scoreboard_sort(SCOREBOARD **array, int maxlinecount)
+{
+//    SCOREBOARD *temp;
+//    int i, j;
+//    for (i = 0; i < maxlinecount - 1; i++)
+//    {
+//        for (j = 0; j < ((maxlinecount - 1) - i); j++)
+//        {
+//            if (((array[j]->hour * 3600) + (array[j]->minute * 60) + (array[j]->second)) >
+//                ((array[j + 1]->hour * 3600) + (array[j + 1]->minute * 60) + (array[j + 1]->second)))
+//            {
+//                temp = array[j + 1];
+//                array[j + 1] = array[j];
+//                array[j] = temp;
+//            }
+//
+//        }
+//    }
+
+    qsort(array, maxlinecount, sizeof(SCOREBOARD *), (int (*)(const void *, const void *)) prec);
+
 }
 
 /*bubble sort*/

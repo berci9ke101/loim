@@ -17,6 +17,9 @@ int main()
     /*konzolablak inicializalasa*/
     console_init();
 
+    /*scoreboard rendezese*/
+    read_sort_write();
+
     /*MAIN MENU, NEHEZSEG ES SCOREBOARD*/
     while (1)
     {
