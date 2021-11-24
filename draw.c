@@ -117,28 +117,28 @@ void half(QUESTION loim)
 {
     if (strcmp(loim.answer, "A") == 0)
     {
-        del_question("B");
-        del_question("D");
+        del_answer("B");
+        del_answer("D");
     }
     else if (strcmp(loim.answer, "B") == 0)
     {
-        del_question("A");
-        del_question("D");
+        del_answer("A");
+        del_answer("D");
     }
     else if (strcmp(loim.answer, "C") == 0)
     {
-        del_question("B");
-        del_question("D");
+        del_answer("B");
+        del_answer("D");
     }
     else if (strcmp(loim.answer, "D") == 0)
     {
-        del_question("A");
-        del_question("C");
+        del_answer("A");
+        del_answer("C");
     }
 }
 
-/*egyik kerdes eltuntetese*/
-void del_question(char *ABCD)
+/*egyik válasz eltuntetese*/
+void del_answer(char *ABCD)
 {
     if (strcmp(ABCD, "A") == 0)
     {

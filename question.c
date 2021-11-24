@@ -94,7 +94,7 @@ char **load_questions(void)
 char *load_a_random_question(char **questions)
 {
     int maxline = count_lines(FILENAME);
-    int randomnum = rand() % (maxline + 1);
+    int randomnum = rand() % maxline;
 
     return questions[randomnum];
 }
@@ -209,28 +209,28 @@ char *cut(char *string)
 void print_question(QUESTION loim)
 {
     /*A*/
-    del_question("A");
+    del_answer("A");
 
     econio_gotoxy(17, 12);
     printf("A: %s", loim.A);
 
 
     /*B*/
-    del_question("B");
+    del_answer("B");
 
     econio_gotoxy(17, 13);
     printf("B: %s", loim.B);
 
 
     /*C*/
-    del_question("C");
+    del_answer("C");
 
     econio_gotoxy(52, 12);
     printf("C: %s", loim.C);
 
 
     /*D*/
-    del_question("D");
+    del_answer("D");
 
     econio_gotoxy(52, 13);
     printf("D: %s", loim.D);

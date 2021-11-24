@@ -192,7 +192,7 @@ int calc_win_amount_length(int win_amount)
         num_num++;
     }
 
-    size = num_thous + num_num + 1; //az osszes ertek osszeadasa
+    size = num_thous + num_num + 1; //az osszes ertek osszeadasa +1 a lezáró nulla
 
     return size;
 }
