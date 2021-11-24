@@ -1,9 +1,14 @@
 #include <stdio.h>
-#include <windows.h>
 #include "econio.h"
 #include "functions.h"
 #include "draw.h"
 #include "debugmalloc.h"
+
+#ifdef _WIN32
+
+#include <windows.h>
+
+#endif
 
 
 /*string integerre valtoztatasa*/
@@ -122,11 +127,14 @@ void console_init(void)
 {
 #ifdef _WIN32
     system("mode con:cols=119 lines=25");
+    UINT original_cp = GetConsoleCP();
     SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+    SetConsoleTitle("Legyen Ön Is Milliomos");
+    SetConsoleCP(original_cp);
     hidecursor();
 #endif
     econio_rawmode();
-    econio_set_title("LOIM");
 }
 
 /*sorok megszamolasa egy fajlban*/
