@@ -342,7 +342,7 @@ char *give_name(bool stop, int hour, int minute, int second, int amount, int fix
 }
 
 /*gameplay*/
-int game(int difficulty)
+void game(int difficulty)
 {
     /*GAME*/
 
