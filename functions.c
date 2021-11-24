@@ -70,14 +70,9 @@ void bubble_sort(int size, int *array)
 }
 
 /*kurzor elrejtese*/
-/*forras: https://stackoverflow.com/a/30126700*/
 void hidecursor(void)
 {
-    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_CURSOR_INFO info;
-    info.dwSize = 100;
-    info.bVisible = FALSE;
-    SetConsoleCursorInfo(consoleHandle, &info);
+    SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &(CONSOLE_CURSOR_INFO) {1, FALSE});
 }
 
 /*konzol oszlopok jelolese debug szempontbol*/
