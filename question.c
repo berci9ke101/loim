@@ -49,7 +49,7 @@ char **load_questions(void)
             do
             {
                 index++;
-                string[index - 1] = fgetc(fp);
+                string[index - 1] = (char) fgetc(fp);
                 newstring = (char *) malloc((index + 1) * sizeof(char));
 
                 /*hibakezeles*/
@@ -178,7 +178,7 @@ QUESTION load_question_by_difficulty(int difficulty, char **questions)
 /*kerdes felvagdosasa 70es (vagy kisebb) blokkokba es ezek elvalasztasa '\n'- nel*/
 char *cut(char *string)
 {
-    int length = strlen(string);
+    int length = (int) strlen(string);
     if (length < 69)
     {
         return string;

@@ -1,6 +1,5 @@
 #include "functions.h"
 #include "main_menu.h"
-#include "scoreboard.h"
 #include "difficulty.h"
 #include "game.h"
 #include "timer.h"
@@ -9,7 +8,7 @@
 
 int main()
 {
-    /*KEZDOERTEKEK BELLITASA*/
+    /*KEZDOERTEKEK BEALLITASA*/
     srand(time(0)); //kozonseg segitseg eloszlasahoz hasznalt randomszamgeneralas es a random kerdes kivalasztasahoz hasznalt random szam
     int difficulty = 0;
     int global_state = 0; //menuvaltozo inicializalasa

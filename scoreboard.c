@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "functions.h"
-#include "scoreboard.h"
 #include "econio.h"
 #include "draw.h"
 #include "debugmalloc.h"
@@ -202,8 +201,7 @@ void read_sort_write(void)
         exit(-1);
     }
     fclose(file);
-
-
+    
     /*teljes score array felszabaditasa*/
     for (int i = 0; i < maxlinecount; i++)
     {

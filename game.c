@@ -285,7 +285,7 @@ char *give_name(bool stop, int hour, int minute, int second, int amount, int fix
     {
         if (econio_kbhit())
         {
-            c = econio_getch();
+            c = (char) econio_getch();
             if (c == '\n')
             {
                 break;
@@ -315,7 +315,7 @@ char *give_name(bool stop, int hour, int minute, int second, int amount, int fix
     char *outamount;
 
     int size = 0;
-    size += strlen(string); //nev hossza
+    size += (int) strlen(string); //nev hossza
     size += 8; //timer erteke fix hh:mm:ss
 
     if (!stop)
@@ -401,7 +401,7 @@ void game(int difficulty)
 
 
         /*vezerles*/
-        int key; //lenyomott billentyű változója
+        int key = KEY_UNKNOWNKEY; //lenyomott billentyű változója
 
         if (econio_kbhit())
         {
@@ -506,8 +506,6 @@ void game(int difficulty)
             stop = true;
             break;
         }
-
-        key = KEY_UNKNOWNKEY; //ha nincs input, akkor ismeretlen billentyűre állítás
     } while (questionnum < 17);
 
     /*nev megadasa es scoreboardba iras*/

@@ -14,7 +14,7 @@
 /*string integerre valtoztatasa*/
 int string_to_int(char *string)
 {
-    int len = strlen(string);
+    int len = (int) strlen(string);
     char *copy = (char *) malloc((len + 1) * sizeof(char));
     strcpy(copy, string);
 
@@ -151,7 +151,7 @@ int count_lines(char *file_name)
     {
         while (c != EOF)
         {
-            c = getc(file);
+            c = (char) getc(file);
             if (c == '\n')
             {
                 max_line_count++;
@@ -173,7 +173,7 @@ int count_lines(char *file_name)
 /*a nyeremeny tagolassal valo stringhssozanak kiszamitasa*/
 int calc_win_amount_length(int win_amount)
 {
-    int size = 0;
+    int size;
     int num_thous = 0;
     int num_num = 0;
     int copy = win_amount;
@@ -214,7 +214,7 @@ void split_num(int number)
 /*egy sztring megforditasa*/
 void reverse_string(char *string)
 {
-    int size = strlen(string);
+    int size = (int) strlen(string);
 
     for (int i = 0; i < size / 2; i++)
     {
@@ -237,7 +237,7 @@ char *split_up_num(int number)
     else
     {
         int size = calc_win_amount_length(number);
-        int helpnum = 0;
+        int helpnum;
 
         char *returnstring = malloc((size + 1) * sizeof(char));
         char help[5 + 1];

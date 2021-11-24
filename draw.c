@@ -117,7 +117,7 @@ void half(QUESTION loim)
 {
     if (strcmp(loim.answer, "A") == 0)
     {
-        del_answer("B");
+        del_answer("C");
         del_answer("D");
     }
     else if (strcmp(loim.answer, "B") == 0)
@@ -177,7 +177,6 @@ void del_answer(char *ABCD)
 /*nyilak kitorlese*/
 void del_arrows(void)
 {
-    int k = 1;
     for (int i = 17; i >= 1; i--)
     {
         if (i != 6 && i != 12)

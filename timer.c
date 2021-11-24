@@ -9,7 +9,7 @@ time_t timer(time_t prev_time, int *hour, int *minute, int *second)
 {
     time_t current_time = time(0);
 
-    int delta = current_time - prev_time;
+    int delta = (int) current_time - (int) prev_time;
 
     *second += delta;
 
