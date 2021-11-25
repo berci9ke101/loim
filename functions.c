@@ -157,7 +157,7 @@ int count_lines(char *file_name)
     else
     {
         econio_clrscr();
-        perror("Sorok megszámlálása sikertlen."); //hiba eseten kilepes adott hibakoddal
+        perror("Sorok megszámlálása sikertelen."); //hiba eseten kilepes adott hibakoddal
         exit(-2);
     }
 
